@@ -5,8 +5,11 @@ Bem-vindo(a)! Este é um teste **take-home** que espelha o trabalho real de um F
 sistemas que nem sempre colaboram, em cima de **dados bagunçados do mundo real**.
 
 > ⏱️ **Tempo:** ~3 dias de relógio. **Espera-se que você use AI coding tools**
-> (Claude Code, Cursor, etc.) — isso é a régua aqui, não trapaça. A gente quer ver
+> (Claude Code, Cursor, ChatGPT, etc.) — isso é a régua aqui, não trapaça. A gente quer ver
 > você orquestrando IA pra entregar com qualidade e velocidade.
+>
+> 📎 Por isso mesmo: **as conversas que você teve com as IAs fazem parte da entrega.**
+> Veja [Transparência de uso de IA](#transparência-de-uso-de-ia-obrigatório) — é obrigatório.
 
 ---
 
@@ -69,9 +72,41 @@ curl -X POST localhost:8000/quote -H 'content-type: application/json' \
 2. **Repositório público no GitHub** com o código.
 3. **README** explicando como rodar e **as decisões que você tomou** (e por quê).
 4. **Log de uma execução completa** (uma conversa do início ao fim, com a cotação saindo).
+5. **As suas conversas com as IAs**, exportadas dentro do repo — ver a seção abaixo.
 
 Você pode usar o dataset de conversas como bem entender (ex.: few-shot, avaliação,
 entender padrões de objeção, testar seu agente). Use o que fizer sentido pra sua solução.
+
+---
+
+## Transparência de uso de IA (obrigatório)
+
+A gente **quer** que você use IA — e faz parte da entrega mostrar o processo, não só o
+resultado final.
+
+**Exporte todas as conversas que você teve com IAs durante o desafio** — ChatGPT,
+Claude Code, Cursor, Copilot Chat, Gemini, o que tiver usado — e **inclua no repo**,
+numa pasta `ai-logs/`.
+
+Como exportar, por ferramenta:
+
+| Ferramenta | Como |
+|---|---|
+| **ChatGPT** | Menu da conversa → *Share* (link público) ou *Export*. Cole o link ou salve o arquivo |
+| **Claude.ai** | Menu da conversa → *Share* ou *Export* |
+| **Claude Code** | As sessões ficam em `~/.claude/projects/<slug-do-projeto>/*.jsonl` — copie os arquivos |
+| **Codex CLI** | Sessões em `~/.codex/sessions/` |
+| **Cursor / Windsurf** | Exporte ou copie o histórico do painel de chat pra um `.md` |
+| **Copilot Chat / outros** | Copie e cole num `.md` mesmo — serve |
+
+Não precisa ser bonito. Um `.jsonl` cru, um `.md` com copy-paste ou uma lista de links
+públicos resolve — pode mandar o histórico como ele saiu.
+
+> ⚠️ **Tire os seus segredos antes de commitar** (API keys, tokens, dados pessoais seus).
+> Isso vai pra um repo público.
+
+Se a exportação não for viável na sua ferramenta, **avise antes de entregar** — a gente
+combina uma sessão de tela compartilhada pra você mostrar o passo a passo, e está tudo certo.
 
 ---
 
@@ -92,7 +127,8 @@ Sem pegadinha escondida na avaliação — o que importa:
 
 ## Entrega
 
-Mande o link do repo público. Qualquer dúvida, fale com quem te enviou o desafio.
+Mande o link do repo público — com o código **e** a pasta `ai-logs/`.
+Qualquer dúvida, fale com quem te enviou o desafio.
 Quando começar, **avise** — a gente marca a conversa de feedback logo depois da entrega.
 
 Boa! 🚀

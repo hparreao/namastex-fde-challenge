@@ -17,3 +17,6 @@ venv/
 .idea/
 .vscode/
 *.log
+
+# ...mas os logs de IA são entregável — ver README (Transparência de uso de IA)
+!ai-logs/**
