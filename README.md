@@ -82,7 +82,7 @@ entender padrões de objeção, testar seu agente). Use o que fizer sentido pra 
 ## Transparência de uso de IA (obrigatório)
 
 A gente **quer** que você use IA — e faz parte da entrega mostrar o processo, não só o
-resultado final.
+resultado final. Esses logs **entram na avaliação** junto com o código.
 
 **Exporte todas as conversas que você teve com IAs durante o desafio** — ChatGPT,
 Claude Code, Cursor, Copilot Chat, Gemini, o que tiver usado — e **inclua no repo**,
@@ -120,6 +120,7 @@ Sem pegadinha escondida na avaliação — o que importa:
 - **Dá pra rastrear o que aconteceu?** (cada mensagem/cotação, com id e status.)
 - **Cuidado com dados sensíveis.** O histórico tem informação pessoal — pense nisso.
 - **Qualidade:** outro engenheiro consegue pegar seu código e entender as decisões?
+- **Como você usou a IA.** Os `ai-logs/` entram na avaliação junto com o código.
 
 > 💡 Não existe "formato de saída certo" definido de propósito. Queremos ver **a sua decisão** de engenharia.
 
