@@ -88,9 +88,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Gitleaks history and working tree
-        run: >-
-          docker run --rm
-          -v "${{ github.workspace }}:/repo:ro"
-          zricethezav/gitleaks:v8.24.2
-          git --config=/repo/.gitleaks.toml /repo
-          --no-banner --redact --exit-code 1
+        run: |
+          curl -fsSL -o /tmp/gitleaks.tar.gz \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.24.2/gitleaks_8.24.2_linux_x64.tar.gz
+          echo 'fa0500f6b7e41d28791ebc680f5dd9899cd42b58629218a5f041efa899151a8e  /tmp/gitleaks.tar.gz' \
+            | sha256sum --check
+          tar -xz -C /tmp gitleaks.tar.gz
+          /tmp/gitleaks git --config=.gitleaks.toml . --no-banner --redact --exit-code 1
