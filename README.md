@@ -1,11 +1,67 @@
 # AutoSeguro Agent
 
-Solução local auditável para o desafio FDE da Namastex. O agente qualifica o lead, confirma os dados e apresenta somente preços retornados por `POST /quote`. A state machine determinística mantém autoridade sobre transições, retries, preço, handoff, persistência e side effects. O modelo apenas extrai dados e classifica intenção.
+## Contexto do desafio
+
+Esta é a entrega do desafio FDE da Namastex: um agente de cotação de seguro auto que conversa com o lead, qualifica os dados necessários, apresenta um resumo para confirmação, chama o serviço de cotação e conclui a intenção comercial ou encaminha para atendimento humano. A solução foi desenhada para demonstrar um ponto central do problema: o modelo pode ajudar a interpretar linguagem natural, mas não pode receber autoridade para criar preço, disparar efeitos externos ou decidir sozinho o estado da conversa.
+
+A state machine determinística é a fonte de verdade para transições, retries, cotação, handoff e persistência. O LLM fica restrito a `AgentDecision`, contendo intenção e dados estruturados; o código valida esse resultado antes de qualquer side effect.
+
+## Respostas objetivas para a avaliação
+
+### Funciona de ponta a ponta? O agente cota certo e não quebra no caminho feliz?
+
+Sim, no cenário validado. A campanha real `live_20260831t204700z` executou o happy path com OpenAIProvider e AgentsSDKProvider: ambos terminaram em `completed`, cada um com uma única tentativa de cotação HTTP 200 e preço apresentado idêntico ao payload validado do upstream. O preço só é apresentado quando há `quote_id` local, tentativa persistida, HTTP 200 e resposta aderente ao schema e ao plano solicitado. A campanha consumiu 17 tentativas HTTP, 8.934 tokens e USD 0,0135365 estimados dentro dos limites configurados.
+
+Essa evidência demonstra os caminhos executados, não um SLA. O Agents SDK continua opcional: houve um `APIConnectionError` transitório tratado por fallback determinístico durante a campanha, portanto OpenAIProvider permanece o default recomendado.
+
+### O que ele faz quando `/quote` falha?
+
+Não inventa preço. Timeout, erro de transporte e HTTP 500, 502 ou 503 recebem até três tentativas, com backoff exponencial e jitter. HTTP 400, HTTP 422, JSON inválido e resposta semanticamente incompatível com a solicitação não recebem retry indevido. Quando a recuperação se esgota, a state machine registra o motivo técnico sanitizado e faz handoff seguro, sem estimativa comercial. Testes determinísticos cobrem recuperação, esgotamento, conexão recusada, payload inválido, circuit breaker e recusa de elegibilidade.
+
+### O critério de passar para o humano é explícito e defensável?
+
+Sim. Handoff ocorre por pedido explícito de humano, mídia sem transcrição, duas ambiguidades consecutivas, inelegibilidade retornada pelo upstream, payload interno ou upstream inválido, indisponibilidade persistente da cotação e negociação depois de uma proposta. Cada caso tem estado final e motivo persistidos. Handoff humano é um resultado de negócio; não é um handoff para outro agente de IA.
+
+### Dá para rastrear o que aconteceu?
+
+Sim. Cada mensagem recebe `correlation_id`, `message_id`, `session_id` e `canonical_trace_id`; tentativas de cotação recebem `quote_id` local, número da tentativa, status HTTP, duração e categoria de erro. O endpoint `GET /v1/sessions/{session_id}/trace` expõe a trilha técnica sanitizada da autorização à transição, decisão de policy, tentativa de quote e completion ou handoff. Sessões, mensagens sanitizadas, transições, tentativas e eventos técnicos ficam no PostgreSQL.
+
+### O histórico tem informação pessoal. O agente está respaldado nisso? Houve vazamento nos testes?
+
+O fluxo aplica redaction antes de o conteúdo chegar ao provider, ao banco, aos logs, às traces ou aos artifacts. CPF, e-mail, telefone, placa e CEP completo são mascarados; somente o prefixo de CEP necessário à regra de risco é mantido. Capability tokens são persistidos como hash, não em texto puro. Os scans executados sobre PostgreSQL de validação, Redis, traces e artifacts da campanha não encontraram PII nem capability token em texto puro; Gitleaks 8.24.2 também passou no histórico e na superfície staged. Isso cobre as superfícies e os casos exercitados, sem estabelecer uma garantia universal de ausência de vazamento.
+
+## Arquitetura, providers e stack
+
+```mermaid
+flowchart LR
+    Lead[Lead: API ou CLI] --> HTTP[FastAPI]
+    HTTP --> Redact[Redaction de PII]
+    Redact --> State[State machine determinística]
+    HTTP --> Coord[Coordenação local ou Redis]
+    State --> LLM[LLMProvider: AgentDecision]
+    LLM --> OA[OpenAI Responses: default]
+    LLM --> SDK[OpenAI Agents SDK: opcional]
+    LLM --> AN[Anthropic: mockado]
+    LLM --> Fake[FakeProvider: testes e demo]
+    State --> Cedar[Cedar: shadow ou enforce]
+    State --> Quote[POST /quote]
+    Quote --> State
+    State --> DB[(PostgreSQL)]
+    State --> Human[Handoff humano]
+    HTTP --> Trace[Trace sanitizada]
+    Trace --> DB
+    Trace -. exportação opcional .-> OTLP[OpenTelemetry / Langfuse]
+```
+
+O núcleo usa Python, FastAPI, Pydantic, SQLAlchemy 2, Alembic, psycopg 3 e httpx. PostgreSQL persiste a trilha auditável; Redis é opcional e fornece rate limiting compartilhado, idempotência, lock por sessão e circuit breaker. Cedar é policy as code para autorização, com default deny; em `shadow` observa decisões, e em `enforce` pode bloquear as ações declaradas. OpenTelemetry também é opcional e falha aberto para não interromper o atendimento.
+
+`LLM_PROVIDER` aceita `fake`, `openai`, `anthropic` e `agents_sdk`. OpenAI Responses com `gpt-5.4-mini` é o default configurado; o snapshot reproduzível validado foi `gpt-5.4-mini-2026-03-17`. O Agents SDK usa um único agent, zero tools, zero handoffs e `max_turns=1`; não calcula preço, não chama `/quote` e não altera estado. Anthropic foi testado com mocks. O runtime não usa LangGraph, pgvector, semantic cache nem arquitetura multi-agent.
+
+O `quote-service/` legado foi preservado. O dataset sintético é usado para avaliar extração, mídia e redaction; seus preços aleatórios não entram em prompts, cache ou respostas do agente.
 
 ## Caminho mínimo sem chamada paga
 
-Este foi o caminho nativo validado no macOS; Docker Compose permanece uma alternativa com
-validação somente estática nesta entrega.
+Este foi o caminho nativo validado no macOS; Docker Compose permanece uma alternativa com validação somente estática nesta entrega.
 
 ```bash
 brew install postgresql@17 redis
@@ -21,8 +77,7 @@ cp .env.example .env
 .venv/bin/alembic upgrade head
 ```
 
-Em um terminal, suba o serviço legado. Em outro, execute a demo com provider determinístico,
-sem credencial e sem chamada paga:
+Em um terminal, suba o serviço legado. Em outro, execute a demo com provider determinístico, sem credencial e sem chamada paga:
 
 ```bash
 agent-service/.venv/bin/uvicorn app.main:app --app-dir quote-service --port 8000
@@ -30,13 +85,10 @@ agent-service/.venv/bin/uvicorn app.main:app --app-dir quote-service --port 8000
 
 ```bash
 cd agent-service
-LLM_PROVIDER=fake .venv/bin/autoseguro demo \
-  --output ../artifacts/demo-conversation.jsonl
+LLM_PROVIDER=fake .venv/bin/autoseguro demo --output ../artifacts/demo-conversation.jsonl
 ```
 
-O resultado esperado é estado `completed`, uma única tentativa HTTP 200 e preço idêntico
-ao payload validado do quote-service. O artifact JSONL e a trace sanitizada ficam em
-`artifacts/`.
+O resultado esperado é estado `completed`, uma única tentativa HTTP 200 e preço idêntico ao payload validado do quote-service.
 
 ## Régua do desafio
 
@@ -50,39 +102,9 @@ ao payload validado do quote-service. O artifact JSONL e a trace sanitizada fica
 | Privacidade | PII ou token persistido | redaction anterior ao LLM/persistência e token com hash | scans de PostgreSQL, Redis, traces e artifacts |
 | Autoridade determinística | side effect probabilístico | modelo limitado a `AgentDecision` | providers sem tools de cotação |
 
-## Arquitetura
+Componentes: `agent-service/` concentra API, CLI, state machine, providers, coordenação, policy, telemetry e testes; `policies/` contém o schema Cedar; `agent-service/evals/` contém casos adversariais; `artifacts/` reúne evidências agregadas; `ai-logs/` traz o export sanitizado da sessão Codex; e `docs/adr/` registra as decisões arquiteturais.
 
-```mermaid
-flowchart LR
-    Lead[API ou CLI] --> HTTP[FastAPI]
-    HTTP --> Coord[Coordenação local ou Redis]
-    HTTP --> State[State machine determinística]
-    State --> LLM[LLMProvider]
-    LLM --> OA[OpenAI Responses]
-    LLM --> SDK[OpenAI Agents SDK opcional]
-    LLM --> AN[Anthropic Messages]
-    LLM --> Fake[FakeProvider]
-    State --> Cedar[Cedar shadow ou enforce]
-    State --> Quote[quote-service /quote]
-    State --> DB[(PostgreSQL)]
-    State --> Human[Handoff humano]
-    HTTP --> Trace[Trace sanitizada]
-    Trace --> DB
-    Trace -. opcional .-> OTLP[OpenTelemetry OTLP / Langfuse]
-```
-
-O `quote-service/` legado foi preservado. O dataset sintético é usado para avaliar extração, mídia e redaction; seus preços aleatórios não alimentam prompts, cache nem respostas. O runtime não é multi-agent. Handoff humano é um estado de negócio, sem handoff do OpenAI Agents SDK.
-
-Componentes:
-
-- `agent-service/`: FastAPI, CLI, state machine, providers, coordenação, policy, telemetry e testes.
-- `policies/`: schema e políticas Cedar validados pelo engine real.
-- `agent-service/evals/`: casos adversariais de cache e traces rotuladas da eval-fleet.
-- `artifacts/`: demo, trace, benchmarks e relatórios agregados sem PII.
-- `ai-logs/`: export sanitizado da sessão Codex e sanitizador reproduzível.
-- `docs/adr/`: decisões de Redis, observabilidade, Cedar, cache, pgvector, Agents SDK e eval-fleet.
-
-## Setup local
+## Configuração local completa
 
 Requisitos usados nesta validação: PostgreSQL 17, Redis, Python `>=3.11` e `uv 0.12.7`
 (a mesma versão fixada na CI).
@@ -120,7 +142,7 @@ LLM_PROVIDER=fake COORDINATION_BACKEND=redis \
 
 `docker-compose.yml` contém PostgreSQL 17, Redis, quote-service e agent-service. Docker não estava instalado nesta revisão; o Compose teve inspeção estática e não deve ser tratado como executado localmente.
 
-## Providers
+## Detalhes dos providers
 
 `LLM_PROVIDER` aceita `fake`, `openai`, `anthropic` e `agents_sdk`. O padrão configurado é `openai` com `gpt-5.4-mini`.
 
