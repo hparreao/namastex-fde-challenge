@@ -38,7 +38,6 @@ class EvaluatorOutput(BaseModel):
     score: float = Field(ge=0.0, le=1.0)
     findings: list[str] = Field(default_factory=list)
     evidence_event_ids: list[str] = Field(default_factory=list)
-    confidence: float = Field(ge=0.0, le=1.0)
     duration_ms: float = Field(ge=0.0)
     input_tokens: int = 0
     output_tokens: int = 0
@@ -77,7 +76,6 @@ class _DeterministicEvaluator:
             score=1.0 if passed else 0.0,
             findings=findings,
             evidence_event_ids=sorted(set(evidence)),
-            confidence=1.0,
             duration_ms=(time.perf_counter() - started) * 1000,
         )
 

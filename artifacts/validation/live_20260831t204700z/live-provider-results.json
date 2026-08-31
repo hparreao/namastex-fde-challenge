@@ -1,0 +1,187 @@
+{
+  "prompt_version": "2026-08-28.1",
+  "schema_version": "agent-decision.v1",
+  "providers": {
+    "openai": [
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 2998,
+        "usage": {
+          "input_tokens": 432,
+          "output_tokens": 55,
+          "total_tokens": 487
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1651,
+        "usage": {
+          "input_tokens": 420,
+          "output_tokens": 51,
+          "total_tokens": 471
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1207,
+        "usage": {
+          "input_tokens": 422,
+          "output_tokens": 51,
+          "total_tokens": 473
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1447,
+        "usage": {
+          "input_tokens": 429,
+          "output_tokens": 51,
+          "total_tokens": 480
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 943,
+        "usage": {
+          "input_tokens": 419,
+          "output_tokens": 53,
+          "total_tokens": 472
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1434,
+        "usage": {
+          "input_tokens": 420,
+          "output_tokens": 51,
+          "total_tokens": 471
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 2051,
+        "usage": {
+          "input_tokens": 434,
+          "output_tokens": 54,
+          "total_tokens": 488
+        }
+      }
+    ],
+    "agents_sdk": [
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1637,
+        "usage": {
+          "input_tokens": 432,
+          "output_tokens": 55,
+          "total_tokens": 487
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "error",
+        "error_category": "APIConnectionError",
+        "http_status": null,
+        "duration_ms": 12
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 3150,
+        "usage": {
+          "input_tokens": 422,
+          "output_tokens": 51,
+          "total_tokens": 473
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1304,
+        "usage": {
+          "input_tokens": 429,
+          "output_tokens": 51,
+          "total_tokens": 480
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1230,
+        "usage": {
+          "input_tokens": 419,
+          "output_tokens": 53,
+          "total_tokens": 472
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1617,
+        "usage": {
+          "input_tokens": 420,
+          "output_tokens": 51,
+          "total_tokens": 471
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1563,
+        "usage": {
+          "input_tokens": 434,
+          "output_tokens": 54,
+          "total_tokens": 488
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1012,
+        "usage": {
+          "input_tokens": 418,
+          "output_tokens": 51,
+          "total_tokens": 469
+        }
+      }
+    ],
+    "gpt_5_4_comparison": [
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1328,
+        "usage": {
+          "input_tokens": 429,
+          "output_tokens": 51,
+          "total_tokens": 480
+        }
+      },
+      {
+        "attempt": 1,
+        "status": "ok",
+        "duration_ms": 1401,
+        "usage": {
+          "input_tokens": 419,
+          "output_tokens": 53,
+          "total_tokens": 472
+        }
+      }
+    ]
+  },
+  "budget": {
+    "http_attempts": 17,
+    "input_tokens": 7798,
+    "output_tokens": 1136,
+    "total_tokens": 8934,
+    "estimated_usd": 0.0135365,
+    "paid_wall_seconds": 27.325
+  }
+}

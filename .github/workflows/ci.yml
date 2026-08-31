@@ -72,7 +72,7 @@ jobs:
       - name: Alembic from zero
         run: |
           uv run alembic upgrade head
-          test "$(uv run alembic current | tail -1)" = "20260829_0003 (head)"
+          test "$(uv run alembic current | tail -1)" = "20260831_0004 (head)"
 
       - name: Tests including PostgreSQL and Redis
         run: uv run pytest

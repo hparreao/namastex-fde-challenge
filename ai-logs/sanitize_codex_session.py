@@ -26,6 +26,7 @@ PRIVATE_KEY = re.compile(
     re.DOTALL,
 )
 API_KEY = re.compile(r"\b(?:sk-proj-|sk-ant-)[A-Za-z0-9_-]{16,}\b")
+API_KEY_LABEL = re.compile(r"(?i)\b(?:generic[-_ ]*)?api[-_ ]?key\b")
 AWS_KEY = re.compile(r"\bAKIA[0-9A-Z]{16}\b")
 BEARER = re.compile(r"(?i)(authorization\s*[:=]\s*bearer\s+)[^\s\"']+")
 SESSION_TOKEN = re.compile(
@@ -34,6 +35,24 @@ SESSION_TOKEN = re.compile(
 DATABASE_PASSWORD = re.compile(r"(postgresql(?:\+psycopg)?://[^:/\s]+:)[^@/\s]+(@)")
 ENV_SECRET = re.compile(
     r"(?im)^(\s*(?:OPENAI_API_KEY|ANTHROPIC_API_KEY|REDIS_PASSWORD)\s*=\s*).+$"
+)
+# Covers generic credential assignments that do not carry a provider-specific
+# prefix. The export deliberately favors redaction over preserving a value that
+# merely looks like a token in visible tool output.
+GENERIC_SECRET_ASSIGNMENT = re.compile(
+    r"(?i)(\b[a-z0-9_-]*?(?:api[_-]?key|key|token|secret|password|auth)"
+    r"[a-z0-9_-]*\s*(?:=|:|:=|=>|\|\|:)\s*)"
+    r"([\"']?)[A-Za-z0-9_./+=-]{10,}\2"
+)
+# Mirrors the value-capture portion of Gitleaks 8.24's generic-api-key rule.
+# It is deliberately applied only to the export, whose job is to preserve
+# visible operational history without retaining credential-shaped values.
+GITLEAKS_GENERIC_API_KEY = re.compile(
+    r"(?i)([\w.-]{0,50}?(?:access|auth|(?:api)|credential|creds|key|"
+    r"passw(?:or)?d|secret|token)(?:[ \t\w.-]{0,20})[\s'\"]{0,3}"
+    r"(?:=|>|:{1,3}=|\|\||:|=>|\?=|,)[\x60'\"\s=]{0,5})"
+    r"([\w.=-]{10,150}|[a-z0-9][a-z0-9+/]{11,}={0,3})"
+    r"(?=(?:[\x60'\"\s;]|\\[nr]|$))"
 )
 IDENTIFIER = re.compile(
     r"(?i)(?<![A-Za-z0-9])(?:"
@@ -51,13 +70,18 @@ def sanitize_text(value: str) -> str:
         return f"[_SAFE_IDENTIFIER_{len(identifiers) - 1}_]"
 
     value = IDENTIFIER.sub(protect, value)
-    value = PRIVATE_KEY.sub("[PRIVATE_KEY_REDACTED]", value)
-    value = API_KEY.sub("[API_KEY_REDACTED]", value)
-    value = AWS_KEY.sub("[AWS_KEY_REDACTED]", value)
-    value = BEARER.sub("[AUTHORIZATION_HEADER_REDACTED]", value)
-    value = SESSION_TOKEN.sub("[SESSION_AUTH_HEADER_REDACTED]", value)
-    value = DATABASE_PASSWORD.sub(r"\1[DATABASE_PASSWORD_REDACTED]\2", value)
-    value = ENV_SECRET.sub(r"\1[REDACTED]", value)
+    value = PRIVATE_KEY.sub("[MASK]", value)
+    value = API_KEY.sub("[MASK]", value)
+    # Avoid preserving credential labels in raw tool output. Older Gitleaks
+    # versions can classify the label itself as a generic key finding.
+    value = API_KEY_LABEL.sub("[MASK]", value)
+    value = AWS_KEY.sub("[MASK]", value)
+    value = BEARER.sub("[MASK]", value)
+    value = SESSION_TOKEN.sub("[MASK]", value)
+    value = DATABASE_PASSWORD.sub(r"\1[MASK]\2", value)
+    value = ENV_SECRET.sub(r"\1[MASK]", value)
+    value = GENERIC_SECRET_ASSIGNMENT.sub(r"\1[MASK]", value)
+    value = GITLEAKS_GENERIC_API_KEY.sub(r"\1[MASK]", value)
     value = EMAIL.sub("[EMAIL_REDACTED]", value)
     value = CPF.sub("[CPF_REDACTED]", value)
     value = PHONE.sub("[PHONE_REDACTED]", value)
@@ -97,11 +121,12 @@ def sanitize(value: Any) -> Any:
         return [sanitize(item) for item in value]
     if isinstance(value, dict):
         return {
-            key: "[REDACTED]"
-            if key.lower() in {"encrypted_content", "api_key", "token", "session_token"}
+            sanitize_text(str(key)): "[MASK]"
+            if str(key).lower()
+            in {"encrypted_content", "api_key", "token", "session_token"}
             else sanitize(item)
             for key, item in value.items()
-            if key != "internal_chat_message_metadata_passthrough"
+            if str(key) != "internal_chat_message_metadata_passthrough"
         }
     return value
 
@@ -195,17 +220,23 @@ def export_session(
                 counts["skipped"] += 1
 
             if exported is not None:
+                # Sanitize Python values before serialization. Never regex-rewrite JSON text:
+                # doing so can invalidate backslash escapes and break the JSONL contract.
                 serialized = json.dumps(
                     sanitize(exported), ensure_ascii=False, sort_keys=True
                 )
-                for _ in range(4):
-                    next_value = sanitize_text(serialized)
-                    if next_value == serialized:
-                        break
-                    serialized = next_value
+                json.loads(serialized)
                 output_file.write(serialized + "\n")
 
+    with temporary.open(encoding="utf-8") as output_file:
+        for line_number, line in enumerate(output_file, start=1):
+            try:
+                json.loads(line)
+            except json.JSONDecodeError as exc:
+                temporary.unlink(missing_ok=True)
+                raise RuntimeError(f"invalid_jsonl_line:{line_number}") from exc
     os.replace(temporary, destination)
+    destination_hash = hashlib.sha256(destination.read_bytes()).hexdigest()
     return {
         **counts,
         "source_records": source_records,
@@ -216,6 +247,8 @@ def export_session(
         "source_sha256": source_hash,
         "first_timestamp": first_timestamp,
         "last_timestamp": last_timestamp,
+        "destination_sha256": destination_hash,
+        "destination_bytes": destination.stat().st_size,
     }
 
 

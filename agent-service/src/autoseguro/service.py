@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import logging
 from typing import Any
 
@@ -141,7 +143,7 @@ class AgentService:
                 "Claro. Vou encaminhar a conversa para um atendente humano.",
             )
         if state is SessionState.QUOTE_PRESENTED:
-            if decision.intent is Intent.ACCEPT or decision.intent is Intent.CONFIRM:
+            if self._safe_accept(sanitized, decision):
                 return self._complete(session_id)
             if decision.intent is Intent.NEGOTIATE:
                 return self._handoff(
@@ -182,11 +184,30 @@ class AgentService:
             self._update_session(session_id, state=next_state, event=f"missing_{missing[0]}")
             return self._reply(session_id, _question_for(missing[0]))
 
-        if state is SessionState.CONFIRMATION and decision.intent is Intent.CONFIRM:
-            return self._run_quote(session_id, merged)
+        confirmed = (
+            ExtractedData.model_validate(record.confirmed_snapshot)
+            if record.confirmed_snapshot
+            else None
+        )
+        if state is SessionState.CONFIRMATION:
+            # A correction, including one extracted by the LLM, invalidates the prior summary.
+            if confirmed is None or merged != confirmed:
+                self._update_session(
+                    session_id,
+                    collected=merged,
+                    clear_confirmed_snapshot=True,
+                    event="confirmation_snapshot_changed",
+                )
+                return self._present_confirmation(session_id, merged)
+            if self._safe_confirm(sanitized, decision, confirmed):
+                return self._run_quote(session_id, confirmed)
+            return self._reply(
+                session_id,
+                "Para seguir com segurança, responda confirmando exatamente o resumo apresentado "
+                "ou informe a correção necessária.",
+            )
 
-        self._update_session(session_id, state=SessionState.CONFIRMATION, event="data_complete")
-        return self._reply(session_id, _confirmation_message(merged))
+        return self._present_confirmation(session_id, merged)
 
     def trace(self, session_id: str) -> dict[str, Any]:
         record = self.repository.get_session(session_id)
@@ -323,7 +344,7 @@ class AgentService:
             {
                 "sessionState": current.state,
                 "dataComplete": not _missing_fields(collected),
-                "confirmed": True,
+                "confirmed": self._is_confirmed_snapshot(current, collected),
                 "sanitized": True,
                 "destination": "quote-service",
             },
@@ -443,6 +464,8 @@ class AgentService:
         state: SessionState | None = None,
         status: SessionStatus | None = None,
         collected: ExtractedData | None = None,
+        confirmed_snapshot: ExtractedData | None = None,
+        clear_confirmed_snapshot: bool = False,
         clarification_count: int | None = None,
         quote_payload: dict[str, Any] | None = None,
         event: str | None = None,
@@ -455,15 +478,52 @@ class AgentService:
                 "event": event or "data_update",
             },
         ):
+            snapshot_hash = _snapshot_hash(confirmed_snapshot) if confirmed_snapshot else None
             self.repository.update_session(
                 session_id,
                 state=state,
                 status=status,
                 collected=collected,
+                confirmed_snapshot=confirmed_snapshot,
+                confirmed_snapshot_hash=snapshot_hash,
+                clear_confirmed_snapshot=clear_confirmed_snapshot,
                 clarification_count=clarification_count,
                 quote_payload=quote_payload,
                 event=event,
             )
+
+    def _present_confirmation(self, session_id: str, collected: ExtractedData) -> TurnResult:
+        with self.telemetry.span(
+            "confirmation_snapshot",
+            {"session_id": session_id, "snapshot_hash": _snapshot_hash(collected)},
+        ):
+            self._update_session(
+                session_id,
+                state=SessionState.CONFIRMATION,
+                collected=collected,
+                confirmed_snapshot=collected,
+                event="confirmation_presented",
+            )
+        return self._reply(session_id, _confirmation_message(collected))
+
+    def _safe_confirm(
+        self, sanitized: str, decision: AgentDecision, snapshot: ExtractedData
+    ) -> bool:
+        return (
+            deterministic_intent(sanitized) is Intent.CONFIRM
+            and decision.intent is Intent.CONFIRM
+            and _missing_fields(snapshot) == []
+        )
+
+    def _safe_accept(self, sanitized: str, decision: AgentDecision) -> bool:
+        return deterministic_intent(sanitized) is Intent.ACCEPT and decision.intent is Intent.ACCEPT
+
+    def _is_confirmed_snapshot(self, record: Any, snapshot: ExtractedData) -> bool:
+        return bool(
+            record.confirmed_snapshot
+            and record.confirmed_snapshot_hash == _snapshot_hash(snapshot)
+            and ExtractedData.model_validate(record.confirmed_snapshot) == snapshot
+        )
 
     def _record_quote_attempts(
         self, session_id: str, quote_id: str, attempts: list[QuoteAttempt]
@@ -548,3 +608,8 @@ def _format_quote(payload: dict[str, Any]) -> str:
 
 def _brl(value: float) -> str:
     return f"{value:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
+
+
+def _snapshot_hash(snapshot: ExtractedData) -> str:
+    serialized = json.dumps(snapshot.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(serialized.encode()).hexdigest()

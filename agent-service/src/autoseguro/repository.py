@@ -121,6 +121,9 @@ class Repository:
         state: SessionState | None = None,
         status: SessionStatus | None = None,
         collected: ExtractedData | None = None,
+        confirmed_snapshot: ExtractedData | None = None,
+        confirmed_snapshot_hash: str | None = None,
+        clear_confirmed_snapshot: bool = False,
         clarification_count: int | None = None,
         quote_payload: dict[str, Any] | None = None,
         event: str | None = None,
@@ -136,6 +139,12 @@ class Repository:
                 record.status = status.value
             if collected is not None:
                 record.collected = collected.model_dump(mode="json")
+            if clear_confirmed_snapshot:
+                record.confirmed_snapshot = None
+                record.confirmed_snapshot_hash = None
+            elif confirmed_snapshot is not None:
+                record.confirmed_snapshot = confirmed_snapshot.model_dump(mode="json")
+                record.confirmed_snapshot_hash = confirmed_snapshot_hash
             if clarification_count is not None:
                 record.clarification_count = clarification_count
             if quote_payload is not None:

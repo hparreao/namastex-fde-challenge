@@ -1,0 +1,23 @@
+{
+  "run_id": "live_20260831t204700z",
+  "mode": "live_openai_local_quote_service",
+  "model_snapshots": [
+    "gpt-5.4-mini-2026-03-17",
+    "gpt-5.4-2026-03-05"
+  ],
+  "prompt_version": "2026-08-28.1",
+  "schema_version": "agent-decision.v1",
+  "alembic_revision": "20260831_0004",
+  "budget": {
+    "http_attempt_limit": 20,
+    "token_limit": 30000,
+    "usd_limit": 1.0,
+    "paid_wall_seconds_limit": 600
+  },
+  "safety": {
+    "raw_prompt_or_response_recorded": false,
+    "capability_token_recorded": false,
+    "pii_recorded": false
+  },
+  "quote_id_scope": "local_operation"
+}

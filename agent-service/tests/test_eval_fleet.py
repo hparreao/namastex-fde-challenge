@@ -17,7 +17,6 @@ def test_eval_fleet_matches_all_labeled_cases() -> None:
         )
         for evaluation in result.evaluations:
             assert 0 <= evaluation.score <= 1
-            assert 0 <= evaluation.confidence <= 1
             assert evaluation.input_tokens == 0
             assert evaluation.output_tokens == 0
             assert evaluation.estimated_cost_usd == 0

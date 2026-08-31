@@ -137,3 +137,18 @@ def test_invalid_success_response_is_rejected_without_price(response: httpx.Resp
     assert len(error.value.attempts) == 1
     assert error.value.attempts[0].http_status == 200
     assert error.value.attempts[0].error_code == "invalid_response_schema"
+
+
+def test_valid_schema_for_another_plan_is_not_presented() -> None:
+    wrong_plan = quote_payload()
+    wrong_plan["plano_id"] = "essencial"
+    client = QuoteClient(
+        "http://quote.test",
+        transport=httpx.MockTransport(lambda _: httpx.Response(200, json=wrong_plan)),
+        sleeper=lambda _: None,
+    )
+    with pytest.raises(QuoteInvalid) as error:
+        client.quote(DATA)
+    assert len(error.value.attempts) == 1
+    assert error.value.attempts[0].status == "invalid"
+    assert error.value.attempts[0].error_code == "upstream_mismatch_plan_id"

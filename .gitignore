@@ -34,3 +34,4 @@ ai-logs/*.py[cod]
 # Evidência local recuperável de auditoria; nunca publicar.
 artifacts/backups/
 artifacts/release-readiness/
+.coverage*

@@ -132,7 +132,7 @@ export LLM_MODEL=gpt-5.4-mini
 
 O `AgentsSDKProvider` usa um único `Agent`, structured output `AgentDecision`, nenhuma tool, nenhum handoff e `max_turns=1`. Recebe apenas mensagem sanitizada, estado e dados mínimos. Não pode chamar `/quote`, calcular preço, persistir ou alterar estado. O tracing nativo fica desabilitado para evitar duplicidade com OpenTelemetry; `trace_include_sensitive_data=False` e o trace ID canônico ainda fazem parte do `RunConfig` testado.
 
-O adapter foi testado com `openai-agents==0.22.0`, mocks e API real. Na campanha `20260831T033826Z`, o OpenAIProvider completou o fluxo E2E. O AgentsSDKProvider fez chamadas reais, mas um `APIConnectionError` sem status durante o happy path acionou fallback determinístico e a sessão terminou em handoff; equivalência E2E entre os providers não foi demonstrada. Anthropic permanece coberto somente por mocks.
+O adapter foi testado com `openai-agents==0.22.0`, mocks e API real. Na campanha `live_20260831t204700z`, ambos os happy paths chegaram a `completed` com uma cotação HTTP 200 e preço comprovadamente igual ao payload upstream. O AgentsSDKProvider registrou um `APIConnectionError` sem status em um turno, tratado pelo fallback determinístico; por isso ele permanece opcional e não é recomendado como default. Anthropic permanece coberto somente por mocks.
 
 Os artifacts identificam os snapshots `gpt-5.4-mini-2026-03-17` e
 `gpt-5.4-2026-03-05`. Reasoning effort não foi enviado explicitamente nem registrado na
@@ -196,7 +196,7 @@ Handoff ocorre por pedido explícito, mídia sem transcrição, ambiguidade pers
 
 Cedar autoriza `CallLLM`, `CallQuote`, `PersistAudit`, `CompleteSession` e `HandoffSession` com principal, action, resource e context tipados e default deny. `CallQuote` exige estado de confirmação, dados completos, confirmação, sanitização e destino `quote-service`.
 
-O padrão `POLICY_MODE=shadow` registra Allow/Deny sem bloquear. `POLICY_MODE=enforce` pode bloquear `POLICY_ENFORCE_ACTIONS`; indisponibilidade do engine bloqueia `CallQuote` e gera handoff seguro. Cedar foi executado com schema e policy reais por `cedarpy 4.8.7`, binding comunitária do engine Rust. “Semantic firewall” é apenas analogia; Cedar não detecta alucinação.
+O padrão `POLICY_MODE=shadow` observa e registra Allow/Deny, sem constituir enforcement ativo. `POLICY_MODE=enforce` pode bloquear `POLICY_ENFORCE_ACTIONS`; indisponibilidade do engine bloqueia `CallQuote` e gera handoff seguro. Cedar foi executado com schema e policy reais por `cedarpy 4.8.7`, binding comunitária do engine Rust. “Semantic firewall” é apenas analogia; Cedar não detecta alucinação.
 
 ## Observabilidade e privacidade
 
@@ -208,14 +208,14 @@ Eventos sanitizados são persistidos no PostgreSQL e retornados por `/trace`. Op
 
 ## Eval-fleet offline
 
-`QuoteIntegrityEvaluator`, `PrivacyEvaluator`, `HandoffEvaluator` e `ResilienceEvaluator` processam somente `SanitizedTrace`, sem tools ou side effects. Cada resultado inclui `passed`, `score`, `findings`, `evidence_event_ids`, `confidence`, latência, tokens e custo. Avaliações independentes rodam em paralelo; agregação e ordenação são determinísticas.
+`QuoteIntegrityEvaluator`, `PrivacyEvaluator`, `HandoffEvaluator` e `ResilienceEvaluator` processam somente `SanitizedTrace`, sem tools ou side effects. Cada resultado inclui `passed`, `score`, `findings`, `evidence_event_ids`, latência, tokens e custo. Avaliações independentes rodam em paralelo; agregação e ordenação são determinísticas.
 
 ```bash
 cd agent-service
 .venv/bin/python scripts/evaluate_fleet.py
 ```
 
-Em dez traces sintéticas rotuladas, o baseline teve concordância `0,90`, quatro falsos negativos e zero falsos positivos. A fleet determinística teve concordância `1,00`, zero falsos positivos, zero falsos negativos e encontrou quatro defeitos adicionais de handoff/resiliência, com zero LLM calls, tokens e custo. Nas duas traces live, a fleet aprovou ambas estruturalmente e não identificou que o happy path do Agents SDK terminou em handoff. Esse falso negativo confirma que a fleet não substitui as invariantes programáticas. LLM judges continuam rejeitados por falta de ganho diagnóstico calibrado.
+Em dez traces sintéticas rotuladas, o baseline teve concordância `0,90`, quatro falsos negativos e zero falsos positivos. A fleet determinística teve concordância `1,00`, zero falsos positivos, zero falsos negativos e encontrou quatro defeitos adicionais de handoff/resiliência, com zero LLM calls, tokens e custo. A fleet avalia invariantes das traces e não substitui as invariantes programáticas. LLM judges continuam rejeitados por falta de ganho diagnóstico calibrado.
 
 ## Dataset, cache e benchmark
 
@@ -275,21 +275,23 @@ cd ..
 gitleaks dir . --redact=100
 ```
 
-`.github/workflows/ci.yml` executa Ruff, mypy strict, Alembic do zero, pytest com PostgreSQL 17 e Redis, `pip-audit` e Gitleaks. Actions estão fixadas por SHA e permissões são somente leitura.
+`.github/workflows/ci.yml` executa Ruff, mypy strict, Alembic do zero, pytest com PostgreSQL 17 e Redis, `pip-audit` e Gitleaks. A execução remota final foi concluída com sucesso; Actions estão fixadas por SHA e permissões são somente leitura.
 
-## Evidências da campanha `20260831T033826Z`
+## Evidências de validação
 
-- Validado localmente: Ruff, mypy strict em 19 módulos, Alembic `20260829_0003` partindo de banco vazio, PostgreSQL 17.10, Redis efêmero, quote-service real, Cedar real, OTLP local, pip-audit e suíte completa.
-- Validado contra OpenAI real: 18 tentativas HTTP, 9.404 tokens contabilizados e custo estimado de USD 0,0140915. O smoke estruturado passou; OpenAIProvider completou o happy path; AgentsSDKProvider apresentou a falha descrita acima.
+- Validado localmente: Ruff, mypy strict em 19 módulos, Alembic `20260831_0004` partindo de banco vazio, PostgreSQL e Redis locais, `pip-audit` e 80 testes de integração completos.
+- Validado contra OpenAI real: a campanha `live_20260831t204700z` consumiu 17 tentativas HTTP, 8.934 tokens, USD 0,0135365 estimados e 27,325 s. OpenAIProvider e AgentsSDKProvider concluíram seus happy paths com uma cotação HTTP 200 cada; a falha transitória do SDK permanece registrada no artifact sanitizado.
 - Comparação live: `gpt-5.4-mini-2026-03-17` e `gpt-5.4-2026-03-05` foram executados nos mesmos casos de injection e negociação. A amostra tem duas observações por snapshot e não sustenta superioridade estatística; p95 é apenas descritivo onde reportado.
 - Testado com mocks: Anthropic, falhas 400/422/500/502/503, timeout, conexão recusada, circuit breaker, Redis indisponível, Cedar deny/fail-closed, concorrência, idempotência, fallback e observabilidade indisponível.
-- Não executado: Docker, CI remoto, Langfuse operacional e Anthropic real.
+- Não executado: Docker, Langfuse operacional e Anthropic real.
 - Semantic cache e pgvector permanecem rejeitados. A instabilidade real foi executada somente com seed `4242`; não houve amostra sem seed.
 
-A regressão completa de release executou 70 testes com PostgreSQL e Redis reais, sem skips.
+A regressão completa de release executou 80 testes com PostgreSQL e Redis reais, sem skips.
 Os casos anteriores permanecem cobertos pela suíte expandida. Evidências detalhadas, falhas
 e limitações ficam em `artifacts/validation/20260831T033826Z/`. A publicação deste repositório
 no GitHub faz parte da entrega; não há deploy de produção ou provisionamento externo.
+
+O sistema reduz a superfície e o impacto de alucinações, especialmente sobre preço, e mede os cenários cobertos pelo corpus de eval. Isso não estabelece uma taxa mínima de alucinação nem uma garantia de produção.
 
 ## Índice de artifacts e arquivos públicos
 

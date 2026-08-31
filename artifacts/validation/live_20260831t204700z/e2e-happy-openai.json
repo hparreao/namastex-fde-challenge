@@ -1,0 +1,158 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.4-mini-2026-03-17",
+  "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+  "turns": [
+    {
+      "turn": 1,
+      "http_status": 200,
+      "correlation_id": "openai-correlation-01",
+      "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+      "state": "confirmation",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": null
+    },
+    {
+      "turn": 2,
+      "http_status": 200,
+      "correlation_id": "openai-correlation-02",
+      "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+      "state": "quote_presented",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": {
+        "plano_id": "completo",
+        "plano_nome": "Completo",
+        "premio_mensal": 209.9,
+        "franquia": 3000.0,
+        "coberturas": [
+          "colisao",
+          "roubo",
+          "furto",
+          "terceiros",
+          "vidros"
+        ],
+        "multiplicadores": {
+          "faixa_etaria": 1.0,
+          "idade_veiculo": 1.0,
+          "regiao": 1.0
+        },
+        "carencia": {
+          "coberturas": [
+            "roubo",
+            "furto"
+          ],
+          "dias": 30,
+          "observacao": "Coberturas de roubo e furto so passam a valer apos a carencia, contada da data de inicio da vigencia."
+        },
+        "moeda": "BRL"
+      }
+    },
+    {
+      "turn": 3,
+      "http_status": 200,
+      "correlation_id": "openai-correlation-03",
+      "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+      "state": "completed",
+      "status": "completed",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": {
+        "plano_id": "completo",
+        "plano_nome": "Completo",
+        "premio_mensal": 209.9,
+        "franquia": 3000.0,
+        "coberturas": [
+          "colisao",
+          "roubo",
+          "furto",
+          "terceiros",
+          "vidros"
+        ],
+        "multiplicadores": {
+          "faixa_etaria": 1.0,
+          "idade_veiculo": 1.0,
+          "regiao": 1.0
+        },
+        "carencia": {
+          "coberturas": [
+            "roubo",
+            "furto"
+          ],
+          "dias": 30,
+          "observacao": "Coberturas de roubo e furto so passam a valer apos a carencia, contada da data de inicio da vigencia."
+        },
+        "moeda": "BRL"
+      }
+    }
+  ],
+  "final_state": "completed",
+  "final_status": "completed",
+  "provenance": {
+    "quote_id_scope": "local_operation",
+    "successful_quote_attempts": 1,
+    "quote_id": "e17c2692-5b51-4a0d-8c64-36538b4cad77",
+    "http_200": true,
+    "presented_price_matches_upstream": true
+  },
+  "provider_calls": [
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 2998,
+      "usage": {
+        "input_tokens": 432,
+        "output_tokens": 55,
+        "total_tokens": 487
+      }
+    },
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 1651,
+      "usage": {
+        "input_tokens": 420,
+        "output_tokens": 51,
+        "total_tokens": 471
+      }
+    },
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 1207,
+      "usage": {
+        "input_tokens": 422,
+        "output_tokens": 51,
+        "total_tokens": 473
+      }
+    }
+  ],
+  "invariants": {
+    "completed": true,
+    "one_successful_quote": true,
+    "no_plaintext_capability_token": true,
+    "no_pii_in_artifact": true,
+    "trace_has_canonical_ids": true
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "provider": "openai-agents-sdk",
+  "model": "gpt-5.4-mini-2026-03-17",
+  "session_id": "bac05a23-5d8c-42ea-81d9-aab86eea44e8",
+  "turns": [
+    {
+      "turn": 1,
+      "http_status": 200,
+      "correlation_id": "agents-sdk-correlation-01",
+      "message_id": "63e889b1-d503-49dd-be50-b963d319b8c9",
+      "state": "confirmation",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": null
+    },
+    {
+      "turn": 2,
+      "http_status": 200,
+      "correlation_id": "agents-sdk-correlation-02",
+      "message_id": "55ffc677-46ff-4a3a-86ba-3812a67f9f46",
+      "state": "quote_presented",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": {
+        "plano_id": "completo",
+        "plano_nome": "Completo",
+        "premio_mensal": 209.9,
+        "franquia": 3000.0,
+        "coberturas": [
+          "colisao",
+          "roubo",
+          "furto",
+          "terceiros",
+          "vidros"
+        ],
+        "multiplicadores": {
+          "faixa_etaria": 1.0,
+          "idade_veiculo": 1.0,
+          "regiao": 1.0
+        },
+        "carencia": {
+          "coberturas": [
+            "roubo",
+            "furto"
+          ],
+          "dias": 30,
+          "observacao": "Coberturas de roubo e furto so passam a valer apos a carencia, contada da data de inicio da vigencia."
+        },
+        "moeda": "BRL"
+      }
+    },
+    {
+      "turn": 3,
+      "http_status": 200,
+      "correlation_id": "agents-sdk-correlation-03",
+      "message_id": "8160b032-dd35-4f11-8633-86f8e28fe553",
+      "state": "completed",
+      "status": "completed",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": {
+        "plano_id": "completo",
+        "plano_nome": "Completo",
+        "premio_mensal": 209.9,
+        "franquia": 3000.0,
+        "coberturas": [
+          "colisao",
+          "roubo",
+          "furto",
+          "terceiros",
+          "vidros"
+        ],
+        "multiplicadores": {
+          "faixa_etaria": 1.0,
+          "idade_veiculo": 1.0,
+          "regiao": 1.0
+        },
+        "carencia": {
+          "coberturas": [
+            "roubo",
+            "furto"
+          ],
+          "dias": 30,
+          "observacao": "Coberturas de roubo e furto so passam a valer apos a carencia, contada da data de inicio da vigencia."
+        },
+        "moeda": "BRL"
+      }
+    }
+  ],
+  "final_state": "completed",
+  "final_status": "completed",
+  "provenance": {
+    "quote_id_scope": "local_operation",
+    "successful_quote_attempts": 1,
+    "quote_id": "038d595c-34dd-4ae4-92a1-e69d7bfce032",
+    "http_200": true,
+    "presented_price_matches_upstream": true
+  },
+  "provider_calls": [
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 1637,
+      "usage": {
+        "input_tokens": 432,
+        "output_tokens": 55,
+        "total_tokens": 487
+      }
+    },
+    {
+      "attempt": 1,
+      "status": "error",
+      "error_category": "APIConnectionError",
+      "http_status": null,
+      "duration_ms": 12
+    },
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 3150,
+      "usage": {
+        "input_tokens": 422,
+        "output_tokens": 51,
+        "total_tokens": 473
+      }
+    }
+  ],
+  "invariants": {
+    "completed": true,
+    "one_successful_quote": true,
+    "no_plaintext_capability_token": true,
+    "no_pii_in_artifact": true,
+    "trace_has_canonical_ids": true
+  }
+}

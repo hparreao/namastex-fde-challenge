@@ -1,0 +1,701 @@
+{
+  "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+  "status": "completed",
+  "state": "completed",
+  "transitions": [
+    {
+      "from": "qualification",
+      "to": "confirmation",
+      "event": "confirmation_presented",
+      "created_at": "2026-08-31T17:45:56.594036-03:00"
+    },
+    {
+      "from": "confirmation",
+      "to": "quoting",
+      "event": "quote_requested",
+      "created_at": "2026-08-31T17:45:58.299136-03:00"
+    },
+    {
+      "from": "quoting",
+      "to": "quote_presented",
+      "event": "quote_succeeded",
+      "created_at": "2026-08-31T17:45:58.353589-03:00"
+    },
+    {
+      "from": "quote_presented",
+      "to": "completed",
+      "event": "lead_accepted_quote",
+      "created_at": "2026-08-31T17:45:59.603183-03:00"
+    }
+  ],
+  "quote_attempts": [
+    {
+      "quote_id": "e17c2692-5b51-4a0d-8c64-36538b4cad77",
+      "attempt_no": 1,
+      "status": "success",
+      "http_status": 200,
+      "duration_ms": 8,
+      "error_code": null
+    }
+  ],
+  "handoff": null,
+  "technical_events": [
+    {
+      "event_id": 1,
+      "correlation_id": "openai-correlation-01",
+      "span": "authorization",
+      "status": "ok",
+      "duration_ms": 2,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "status": "allow",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:53.565746-03:00"
+    },
+    {
+      "event_id": 2,
+      "correlation_id": "openai-correlation-01",
+      "span": "idempotency",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "coordination": "redis",
+        "cache_status": "miss",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:53.569723-03:00"
+    },
+    {
+      "event_id": 3,
+      "correlation_id": "openai-correlation-01",
+      "span": "session_lock",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "status": "acquired",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:53.571338-03:00"
+    },
+    {
+      "event_id": 4,
+      "correlation_id": "openai-correlation-01",
+      "span": "pii_redaction",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "redaction_applied": false,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:53.575949-03:00"
+    },
+    {
+      "event_id": 5,
+      "correlation_id": "openai-correlation-01",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "policy_action": "PersistAudit",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:53.580269-03:00"
+    },
+    {
+      "event_id": 6,
+      "correlation_id": "openai-correlation-01",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "policy_action": "CallLLM",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:53.584501-03:00"
+    },
+    {
+      "event_id": 7,
+      "correlation_id": "openai-correlation-01",
+      "span": "llm_decision",
+      "status": "ok",
+      "duration_ms": 3000,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "state": "qualification",
+        "prompt_version": "2026-08-28.1",
+        "schema_version": "agent-decision.v1",
+        "cache_status": "disabled",
+        "input_tokens": 432,
+        "output_tokens": 55,
+        "total_tokens": 487,
+        "provider_status": "ok",
+        "provider_duration_ms": 2998,
+        "status": "success",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.585996-03:00"
+    },
+    {
+      "event_id": 8,
+      "correlation_id": "openai-correlation-01",
+      "span": "state_transition",
+      "status": "ok",
+      "duration_ms": 3,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "target_state": "unchanged",
+        "event": "data_update",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.590706-03:00"
+    },
+    {
+      "event_id": 9,
+      "correlation_id": "openai-correlation-01",
+      "span": "state_transition",
+      "status": "ok",
+      "duration_ms": 3,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "target_state": "confirmation",
+        "event": "confirmation_presented",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.595607-03:00"
+    },
+    {
+      "event_id": 10,
+      "correlation_id": "openai-correlation-01",
+      "span": "confirmation_snapshot",
+      "status": "ok",
+      "duration_ms": 4,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "snapshot_hash": "362c75a74e8d35fa4bdcb46e56be1e712fa36c6e1981122093e3d97ca0b96ec4",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.596565-03:00"
+    },
+    {
+      "event_id": 11,
+      "correlation_id": "openai-correlation-01",
+      "span": "message",
+      "status": "ok",
+      "duration_ms": 3041,
+      "attributes": {
+        "correlation_id": "openai-correlation-01",
+        "canonical_trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "9abc8779-7271-449d-8f76-fbad9c971888",
+        "http_method": "POST",
+        "http_route": "/v1/sessions/{session_id}/messages",
+        "http_status": 200,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.603476-03:00"
+    },
+    {
+      "event_id": 12,
+      "correlation_id": "openai-correlation-02",
+      "span": "authorization",
+      "status": "ok",
+      "duration_ms": 1,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "status": "allow",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.608036-03:00"
+    },
+    {
+      "event_id": 13,
+      "correlation_id": "openai-correlation-02",
+      "span": "idempotency",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "coordination": "redis",
+        "cache_status": "miss",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.609252-03:00"
+    },
+    {
+      "event_id": 14,
+      "correlation_id": "openai-correlation-02",
+      "span": "session_lock",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "status": "acquired",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.610130-03:00"
+    },
+    {
+      "event_id": 15,
+      "correlation_id": "openai-correlation-02",
+      "span": "pii_redaction",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "redaction_applied": false,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.615338-03:00"
+    },
+    {
+      "event_id": 16,
+      "correlation_id": "openai-correlation-02",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "policy_action": "PersistAudit",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.616465-03:00"
+    },
+    {
+      "event_id": 17,
+      "correlation_id": "openai-correlation-02",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "policy_action": "CallLLM",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:56.618837-03:00"
+    },
+    {
+      "event_id": 18,
+      "correlation_id": "openai-correlation-02",
+      "span": "llm_decision",
+      "status": "ok",
+      "duration_ms": 1654,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "state": "confirmation",
+        "prompt_version": "2026-08-28.1",
+        "schema_version": "agent-decision.v1",
+        "cache_status": "disabled",
+        "input_tokens": 420,
+        "output_tokens": 51,
+        "total_tokens": 471,
+        "provider_status": "ok",
+        "provider_duration_ms": 1651,
+        "status": "success",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.275048-03:00"
+    },
+    {
+      "event_id": 19,
+      "correlation_id": "openai-correlation-02",
+      "span": "state_transition",
+      "status": "ok",
+      "duration_ms": 6,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "target_state": "unchanged",
+        "event": "data_update",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.283162-03:00"
+    },
+    {
+      "event_id": 20,
+      "correlation_id": "openai-correlation-02",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "policy_action": "CallQuote",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.294963-03:00"
+    },
+    {
+      "event_id": 21,
+      "correlation_id": "openai-correlation-02",
+      "span": "state_transition",
+      "status": "ok",
+      "duration_ms": 4,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "target_state": "quoting",
+        "event": "quote_requested",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.301276-03:00"
+    },
+    {
+      "event_id": 22,
+      "correlation_id": "openai-correlation-02",
+      "span": "quote_attempt",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "quote_id": "e17c2692-5b51-4a0d-8c64-36538b4cad77",
+        "quote_id_scope": "local_operation",
+        "attempt": 1,
+        "status": "success",
+        "http_status": 200,
+        "duration_ms": 8,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.347886-03:00"
+    },
+    {
+      "event_id": 23,
+      "correlation_id": "openai-correlation-02",
+      "span": "state_transition",
+      "status": "ok",
+      "duration_ms": 2,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "target_state": "quote_presented",
+        "event": "quote_succeeded",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.354466-03:00"
+    },
+    {
+      "event_id": 24,
+      "correlation_id": "openai-correlation-02",
+      "span": "message",
+      "status": "ok",
+      "duration_ms": 1756,
+      "attributes": {
+        "correlation_id": "openai-correlation-02",
+        "canonical_trace_id": "trace_0cd9107912f1b283c6a12ec2b3cd83b0",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "c2fbc4fc-276b-4681-a0a3-7f41f80c992f",
+        "http_method": "POST",
+        "http_route": "/v1/sessions/{session_id}/messages",
+        "http_status": 200,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.362618-03:00"
+    },
+    {
+      "event_id": 25,
+      "correlation_id": "openai-correlation-03",
+      "span": "authorization",
+      "status": "ok",
+      "duration_ms": 1,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "status": "allow",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.367478-03:00"
+    },
+    {
+      "event_id": 26,
+      "correlation_id": "openai-correlation-03",
+      "span": "idempotency",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "coordination": "redis",
+        "cache_status": "miss",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.369617-03:00"
+    },
+    {
+      "event_id": 27,
+      "correlation_id": "openai-correlation-03",
+      "span": "session_lock",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "status": "acquired",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.371181-03:00"
+    },
+    {
+      "event_id": 28,
+      "correlation_id": "openai-correlation-03",
+      "span": "pii_redaction",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "redaction_applied": false,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.376266-03:00"
+    },
+    {
+      "event_id": 29,
+      "correlation_id": "openai-correlation-03",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "policy_action": "PersistAudit",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.378015-03:00"
+    },
+    {
+      "event_id": 30,
+      "correlation_id": "openai-correlation-03",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "policy_action": "CallLLM",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:58.380418-03:00"
+    },
+    {
+      "event_id": 31,
+      "correlation_id": "openai-correlation-03",
+      "span": "llm_decision",
+      "status": "ok",
+      "duration_ms": 1208,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "provider": "openai",
+        "model": "gpt-5.4-mini-2026-03-17",
+        "state": "quote_presented",
+        "prompt_version": "2026-08-28.1",
+        "schema_version": "agent-decision.v1",
+        "cache_status": "disabled",
+        "input_tokens": 422,
+        "output_tokens": 51,
+        "total_tokens": 473,
+        "provider_status": "ok",
+        "provider_duration_ms": 1207,
+        "status": "success",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:59.590474-03:00"
+    },
+    {
+      "event_id": 32,
+      "correlation_id": "openai-correlation-03",
+      "span": "cedar_policy_decision",
+      "status": "ok",
+      "duration_ms": 0,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "policy_action": "CompleteSession",
+        "policy_mode": "shadow",
+        "policy_engine": "cedarpy",
+        "allowed": true,
+        "engine_available": true,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:59.599730-03:00"
+    },
+    {
+      "event_id": 33,
+      "correlation_id": "openai-correlation-03",
+      "span": "state_transition",
+      "status": "ok",
+      "duration_ms": 3,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "target_state": "completed",
+        "event": "lead_accepted_quote",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:59.604093-03:00"
+    },
+    {
+      "event_id": 34,
+      "correlation_id": "openai-correlation-03",
+      "span": "completion",
+      "status": "ok",
+      "duration_ms": 4,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:59.605105-03:00"
+    },
+    {
+      "event_id": 35,
+      "correlation_id": "openai-correlation-03",
+      "span": "message",
+      "status": "ok",
+      "duration_ms": 1250,
+      "attributes": {
+        "correlation_id": "openai-correlation-03",
+        "canonical_trace_id": "trace_43b4ae0befb027eb27906c20bed5ba47",
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "message_id": "205f0fc2-5df3-4b64-ab73-55e081f66da9",
+        "http_method": "POST",
+        "http_route": "/v1/sessions/{session_id}/messages",
+        "http_status": 200,
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:59.616309-03:00"
+    },
+    {
+      "event_id": 36,
+      "correlation_id": null,
+      "span": "authorization",
+      "status": "ok",
+      "duration_ms": 1,
+      "attributes": {
+        "session_id": "1345de77-ebd1-43d9-aede-742d9ee4dc5f",
+        "status": "allow",
+        "events": []
+      },
+      "created_at": "2026-08-31T17:45:59.622344-03:00"
+    }
+  ]
+}

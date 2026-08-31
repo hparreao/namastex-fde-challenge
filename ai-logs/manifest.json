@@ -3,23 +3,24 @@
   "thread_id": "01a04a30-3839-7bb0-bb1e-93d7034659fa",
   "thread_title": "Clonar projeto Namastex FDE",
   "source": "~/.codex/sessions/2026/08/28/rollout-2026-08-28T18-04-29-01a04a30-3839-7bb0-bb1e-93d7034659fa.jsonl",
-  "source_record_cutoff": 3982,
-  "source_snapshot_sha256": "51ed42df46ea5bd1da1b302e23efc8f66dd07254c76961d9912646eb14fa8d6d",
+  "source_record_cutoff": 6051,
+  "source_snapshot_sha256": "e679d2945c54278df1931626d8a789e71bceb3e7aee1834cbf9aacce6ee8bfc1",
   "export": "ai-logs/codex-main-session-sanitized.jsonl",
-  "export_sha256": "557bde75d4a372b7f0047cc5a2df62f684383c8af8d0bffd40ad325a8a397d46",
+  "export_sha256": "60374346c2ab4e6aa17628f93c68977b58be14c73da780d84a191100330c973b",
+  "export_bytes": 4278767,
   "covered_period_utc": {
     "first": "2026-08-28T21:04:48.964Z",
-    "last": "2026-08-31T10:32:44.561Z"
+    "last": "2026-08-31T20:48:40.300Z"
   },
   "records": {
-    "exported_total_including_metadata": 1290,
-    "messages": 112,
-    "tool_calls": 589,
-    "tool_outputs": 588,
-    "source_events_skipped": 2693
+    "exported_total_including_metadata": 1978,
+    "messages": 174,
+    "tool_calls": 902,
+    "tool_outputs": 901,
+    "source_events_skipped": 4074
   },
   "sanitization_policy": "Preserva mensagens visíveis de user e assistant, planos, tool calls e outputs relevantes. Exclui developer/system, reasoning, conteúdo criptografado, token counts e metadados internos. Mascara secrets, credenciais, PII e o diretório pessoal antes da escrita.",
-  "cutoff_policy": "O número de registros da origem foi capturado antes da chamada que gerou o export; a própria chamada de exportação e eventos posteriores não estão incluídos.",
+  "cutoff_policy": "O número de registros da origem foi capturado antes da chamada que gerou o export. O artifact termina no turno anterior às operações mecânicas de empacotamento; se uma correção posterior exigir novo commit, o export deve ser regenerado antes do push.",
   "source_original_modified_or_moved": false,
   "scope_note": "Este artifact cobre a sessão principal identificada. Não representa a totalidade das interações com todas as ferramentas de IA."
 }

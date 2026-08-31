@@ -65,8 +65,8 @@
       "handoff",
       "resilience"
     ],
-    "p50_latency_ms": 0.3029789950232953,
-    "p95_latency_ms": 1.9350420334376395,
+    "p50_latency_ms": 0.22995800827629864,
+    "p95_latency_ms": 0.25708304019644856,
     "llm_calls": 0,
     "input_tokens": 0,
     "output_tokens": 0,
@@ -90,8 +90,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.004917033948004246,
+            "duration_ms": 0.004125002305954695,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -102,8 +101,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.5359579809010029,
+            "duration_ms": 0.3422499867156148,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -116,8 +114,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.0070829992182552814,
+            "duration_ms": 0.006041955202817917,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -130,8 +127,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.008957984391599894,
+            "duration_ms": 0.010040996130555868,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -158,8 +154,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.003374996595084667,
+            "duration_ms": 0.0024579931050539017,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -170,8 +165,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.06008404307067394,
+            "duration_ms": 0.058624951634556055,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -182,8 +176,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0024999608285725117,
+            "duration_ms": 0.0019589788280427456,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -194,8 +187,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0015830155462026596,
+            "duration_ms": 0.001541979145258665,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -224,8 +216,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0010829535312950611,
+            "duration_ms": 0.00100000761449337,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -236,8 +227,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.06287498399615288,
+            "duration_ms": 0.06533303530886769,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -251,8 +241,7 @@
               "quote_source_not_proven"
             ],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.004167028237134218,
+            "duration_ms": 0.0027919886633753777,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -263,8 +252,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0017079873941838741,
+            "duration_ms": 0.0015830155462026596,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -293,8 +281,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0012919772416353226,
+            "duration_ms": 0.0008750357665121555,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -305,8 +292,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.04941597580909729,
+            "duration_ms": 0.04245800664648414,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -321,8 +307,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.002874992787837982,
+            "duration_ms": 0.0026249908842146397,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -333,8 +318,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0012919772416353226,
+            "duration_ms": 0.001292035449296236,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -363,8 +347,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0015420373529195786,
+            "duration_ms": 0.0007909839041531086,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -380,8 +363,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.05258404416963458,
+            "duration_ms": 0.043459003791213036,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -392,8 +374,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0016669509932398796,
+            "duration_ms": 0.0010420335456728935,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -404,8 +385,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0009579816833138466,
+            "duration_ms": 0.00100000761449337,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -438,8 +418,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.002415967173874378,
+            "duration_ms": 0.001374981366097927,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -450,8 +429,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0499580055475235,
+            "duration_ms": 0.039083999581635,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -462,8 +440,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0014589750207960606,
+            "duration_ms": 0.000792031642049551,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -474,8 +451,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.001207983586937189,
+            "duration_ms": 0.0007500057108700275,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -508,8 +484,7 @@
             "evidence_event_ids": [
               "e2"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.0016249832697212696,
+            "duration_ms": 0.001500011421740055,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -520,8 +495,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.08870800957083702,
+            "duration_ms": 0.0803329749032855,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -534,8 +508,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.0030420487746596336,
+            "duration_ms": 0.002374988980591297,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -548,8 +521,7 @@
             "evidence_event_ids": [
               "e1"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.006834045052528381,
+            "duration_ms": 0.00566698145121336,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -578,8 +550,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0015829573385417461,
+            "duration_ms": 0.00100000761449337,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -590,8 +561,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.15120796160772443,
+            "duration_ms": 0.07245800225064158,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -602,8 +572,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.011708005331456661,
+            "duration_ms": 0.0011659576557576656,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -620,8 +589,7 @@
               "e1",
               "e2"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.00662502134218812,
+            "duration_ms": 0.004792003892362118,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -650,8 +618,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0012500095181167126,
+            "duration_ms": 0.000708969309926033,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -662,8 +629,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.17337501049041748,
+            "duration_ms": 0.09124999633058906,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -674,8 +640,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.003167020622640848,
+            "duration_ms": 0.001125037670135498,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -692,8 +657,7 @@
               "e2",
               "e3"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.010916031897068024,
+            "duration_ms": 0.005166977643966675,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -718,8 +682,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.0010420335456728935,
+            "duration_ms": 0.001207983586937189,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -730,8 +693,7 @@
             "score": 1.0,
             "findings": [],
             "evidence_event_ids": [],
-            "confidence": 1.0,
-            "duration_ms": 0.10058400221168995,
+            "duration_ms": 0.09008299093693495,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -744,8 +706,7 @@
             "evidence_event_ids": [
               "e2"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.0036669662222266197,
+            "duration_ms": 0.0019170111045241356,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0
@@ -759,8 +720,7 @@
               "e1",
               "e2"
             ],
-            "confidence": 1.0,
-            "duration_ms": 0.008292030543088913,
+            "duration_ms": 0.005292007699608803,
             "input_tokens": 0,
             "output_tokens": 0,
             "estimated_cost_usd": 0.0

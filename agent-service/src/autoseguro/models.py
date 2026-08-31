@@ -22,6 +22,8 @@ class SessionRecord(Base):
     status: Mapped[str] = mapped_column(String(24), nullable=False, index=True)
     state: Mapped[str] = mapped_column(String(32), nullable=False)
     collected: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
+    confirmed_snapshot: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    confirmed_snapshot_hash: Mapped[str | None] = mapped_column(String(64), nullable=True)
     session_token_hash: Mapped[str | None] = mapped_column(String(64), nullable=True)
     clarification_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     quote_payload: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)

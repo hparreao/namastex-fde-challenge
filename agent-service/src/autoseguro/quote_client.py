@@ -117,6 +117,22 @@ class QuoteClient:
                             raise QuoteInvalid(
                                 "Quote-service retornou resposta inválida.", quote_id, attempts
                             ) from exc
+                        if body["plano_id"] != data.plan_id:
+                            attempts.append(
+                                QuoteAttempt(
+                                    attempt_no=attempt_no,
+                                    status="invalid",
+                                    http_status=200,
+                                    duration_ms=duration_ms,
+                                    error_code="upstream_mismatch_plan_id",
+                                    response_payload=body,
+                                )
+                            )
+                            raise QuoteInvalid(
+                                "Quote-service retornou plano diferente da solicitação.",
+                                quote_id,
+                                attempts,
+                            )
                         attempts.append(
                             QuoteAttempt(
                                 attempt_no=attempt_no,

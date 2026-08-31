@@ -227,7 +227,8 @@ def e2e(
                 "status": body.get("session", {}).get("status"),
                 "collected": body.get("session", {}).get("collected"),
                 "quote": body.get("session", {}).get("quote"),
-                "assistant_message": body.get("assistant_message", {}).get("content"),
+                # Artifacts keep decision evidence, never conversational text.
+                "assistant_message_recorded": bool(body.get("assistant_message")),
             }
         )
         if response.status_code != 200:
