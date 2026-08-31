@@ -1,0 +1,47 @@
+{
+  "run_id": "20260831T033826Z",
+  "before_changes": {
+    "ruff_format_check": {"passed": true, "result": "41 files already formatted"},
+    "ruff_check": {"passed": true, "result": "All checks passed"},
+    "mypy_strict_ci_scope": {"passed": true, "result": "19 source files"},
+    "mypy_diagnostic_src_and_tests": {
+      "passed": false,
+      "result": "20 errors in 5 test files",
+      "scope_note": "Recorded before correction; CI intentionally type-checks src/autoseguro."
+    },
+    "pytest_postgresql_redis": {"passed": true, "result": "57 passed in 10.40s"},
+    "alembic_from_zero": {"passed": true, "revision": "20260829_0003"},
+    "pip_audit_sandbox": {"passed": false, "error_category": "network_dns_unavailable"},
+    "pip_audit_network_retry": {
+      "passed": true,
+      "result": "No known vulnerabilities found",
+      "local_package_skipped": "autoseguro-agent 1.0.0 is not published on PyPI"
+    },
+    "gitleaks_git": {"passed": true, "leaks": 0},
+    "gitleaks_deliverable_mirror": {"passed": true, "leaks": 0, "files": 86},
+    "eval_fleet": {"passed": true, "cases": 10, "agreement_rate": 1.0, "false_positives": 0, "false_negatives": 0},
+    "semantic_cache": {"decision": "reject_semantic_cache", "unsafe_false_hit_rate": 0.5833},
+    "benchmark": {"iterations_per_profile": 100, "decision_equivalence": 1.0, "p95_interpretation": "descriptive_only"}
+  },
+  "after_provider_controls": {
+    "ruff": true,
+    "mypy": true,
+    "pytest": "57 passed in 4.38s"
+  },
+  "after_coordination_trace_policy": {
+    "pytest": "60 passed in 5.18s"
+  },
+  "final_regression": {
+    "ruff_format": "42 files already formatted",
+    "ruff_check": "passed",
+    "mypy_strict": "19 source files passed",
+    "pytest": "70 passed in 3.70s",
+    "pip_audit": "No known vulnerabilities found; local unpublished package skipped"
+  },
+  "unexpected_local_setup_event": {
+    "description": "createdb interpreted a URI as a literal truncated database name",
+    "source_database_touched": false,
+    "cleanup_performed": false,
+    "reason": "No destructive cleanup was authorized; the isolated validation database was then created with explicit parameters."
+  }
+}

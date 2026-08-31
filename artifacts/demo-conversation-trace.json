@@ -1,0 +1,549 @@
+{
+  "handoff": null,
+  "quote_attempts": [
+    {
+      "attempt_no": 1,
+      "duration_ms": 153,
+      "error_code": null,
+      "http_status": 200,
+      "quote_id": "a25f958a-8dfd-46e8-b5ae-916da0e146c7",
+      "status": "success"
+    }
+  ],
+  "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+  "state": "completed",
+  "status": "completed",
+  "technical_events": [
+    {
+      "attributes": {
+        "events": [],
+        "redaction_applied": false,
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.754741-03:00",
+      "duration_ms": 0,
+      "span": "pii_redaction",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "PersistAudit",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.765180-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "CallLLM",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.771025-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "cache_status": "disabled",
+        "events": [],
+        "model": "deterministic-v1",
+        "prompt_version": "2026-08-28.1",
+        "provider": "fake",
+        "schema_version": "agent-decision.v1",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "state": "qualification",
+        "status": "success"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.772357-03:00",
+      "duration_ms": 0,
+      "span": "llm_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "data_update",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "unchanged"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.777399-03:00",
+      "duration_ms": 4,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "missing_idade",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "qualification"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.779341-03:00",
+      "duration_ms": 1,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "events": [],
+        "redaction_applied": true,
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.788291-03:00",
+      "duration_ms": 0,
+      "span": "pii_redaction",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "PersistAudit",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.790077-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "CallLLM",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.792065-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "cache_status": "disabled",
+        "events": [],
+        "model": "deterministic-v1",
+        "prompt_version": "2026-08-28.1",
+        "provider": "fake",
+        "schema_version": "agent-decision.v1",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "state": "qualification",
+        "status": "success"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.792957-03:00",
+      "duration_ms": 0,
+      "span": "llm_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "data_update",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "unchanged"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.795502-03:00",
+      "duration_ms": 1,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "missing_plano",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "plan_selection"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.799001-03:00",
+      "duration_ms": 2,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "events": [],
+        "redaction_applied": false,
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.807464-03:00",
+      "duration_ms": 0,
+      "span": "pii_redaction",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "PersistAudit",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.808560-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "CallLLM",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.811225-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "cache_status": "disabled",
+        "events": [],
+        "model": "deterministic-v1",
+        "prompt_version": "2026-08-28.1",
+        "provider": "fake",
+        "schema_version": "agent-decision.v1",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "state": "plan_selection",
+        "status": "success"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.815810-03:00",
+      "duration_ms": 0,
+      "span": "llm_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "data_update",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "unchanged"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.819518-03:00",
+      "duration_ms": 2,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "data_complete",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "confirmation"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.822739-03:00",
+      "duration_ms": 2,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "events": [],
+        "redaction_applied": false,
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.831906-03:00",
+      "duration_ms": 0,
+      "span": "pii_redaction",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "PersistAudit",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.833055-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "CallLLM",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.834739-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "cache_status": "disabled",
+        "events": [],
+        "model": "deterministic-v1",
+        "prompt_version": "2026-08-28.1",
+        "provider": "fake",
+        "schema_version": "agent-decision.v1",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "state": "confirmation",
+        "status": "success"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.835736-03:00",
+      "duration_ms": 0,
+      "span": "llm_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "data_update",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "unchanged"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.838575-03:00",
+      "duration_ms": 2,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "CallQuote",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.843366-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "quote_requested",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "quoting"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:45.847208-03:00",
+      "duration_ms": 3,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "attempt": 1,
+        "duration_ms": 153,
+        "events": [],
+        "http_status": 200,
+        "quote_id": "a25f958a-8dfd-46e8-b5ae-916da0e146c7",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "status": "success"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.054517-03:00",
+      "duration_ms": 0,
+      "span": "quote_attempt",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "quote_succeeded",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "quote_presented"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.059458-03:00",
+      "duration_ms": 2,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "events": [],
+        "redaction_applied": false,
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.069097-03:00",
+      "duration_ms": 0,
+      "span": "pii_redaction",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "PersistAudit",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.070441-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "CallLLM",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.073175-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "cache_status": "disabled",
+        "events": [],
+        "model": "deterministic-v1",
+        "prompt_version": "2026-08-28.1",
+        "provider": "fake",
+        "schema_version": "agent-decision.v1",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "state": "quote_presented",
+        "status": "success"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.074258-03:00",
+      "duration_ms": 0,
+      "span": "llm_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "allowed": true,
+        "engine_available": true,
+        "events": [],
+        "policy_action": "CompleteSession",
+        "policy_engine": "cedarpy",
+        "policy_mode": "shadow",
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.078976-03:00",
+      "duration_ms": 0,
+      "span": "cedar_policy_decision",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "event": "lead_accepted_quote",
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9",
+        "target_state": "completed"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.082965-03:00",
+      "duration_ms": 3,
+      "span": "state_transition",
+      "status": "ok"
+    },
+    {
+      "attributes": {
+        "events": [],
+        "session_id": "d15b3ac7-8fe7-447b-a7d6-1fbcacd6ddc9"
+      },
+      "correlation_id": null,
+      "created_at": "2026-08-29T08:50:46.083853-03:00",
+      "duration_ms": 4,
+      "span": "completion",
+      "status": "ok"
+    }
+  ],
+  "transitions": [
+    {
+      "created_at": "2026-08-29T08:50:45.798033-03:00",
+      "event": "missing_plano",
+      "from": "qualification",
+      "to": "plan_selection"
+    },
+    {
+      "created_at": "2026-08-29T08:50:45.821900-03:00",
+      "event": "data_complete",
+      "from": "plan_selection",
+      "to": "confirmation"
+    },
+    {
+      "created_at": "2026-08-29T08:50:45.846176-03:00",
+      "event": "quote_requested",
+      "from": "confirmation",
+      "to": "quoting"
+    },
+    {
+      "created_at": "2026-08-29T08:50:46.058529-03:00",
+      "event": "quote_succeeded",
+      "from": "quoting",
+      "to": "quote_presented"
+    },
+    {
+      "created_at": "2026-08-29T08:50:46.082077-03:00",
+      "event": "lead_accepted_quote",
+      "from": "quote_presented",
+      "to": "completed"
+    }
+  ]
+}

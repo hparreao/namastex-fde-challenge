@@ -1,0 +1,222 @@
+{
+  "run_id": "20260831T033826Z",
+  "started_at_utc": "2026-08-31T03:38:26+00:00",
+  "finished_at_utc": "2026-08-31T04:04:21.721331+00:00",
+  "wall_seconds_descriptive": 1555.721,
+  "head_at_runtime": "52a006ca8ea571c3b9618be6886cb2ee20b6f6b8",
+  "dirty_state": {
+    "entries": 9,
+    "modified": 3,
+    "untracked": 6
+  },
+  "runtime": {
+    "python": "3.13.8",
+    "openai": "3.5.0",
+    "openai_agents": "0.22.0",
+    "postgresql": "17.10",
+    "redis": "8.10.1",
+    "cedarpy": "4.8.7"
+  },
+  "models": {
+    "configured_smoke": "gpt-5.4-mini",
+    "reproducible_primary": "gpt-5.4-mini-2026-03-17",
+    "comparison": "gpt-5.4-2026-03-05"
+  },
+  "prompt_version": "2026-08-28.1",
+  "schema_version": "agent-decision.v1",
+  "database": {
+    "name": "autoseguro_validation_20260831t033826z",
+    "revision": "20260829_0003",
+    "created_from_zero": true,
+    "source_database_modified": false
+  },
+  "cedar": {
+    "engine": "cedarpy",
+    "default_mode": "shadow",
+    "enforce_actions": [
+      "CallQuote"
+    ],
+    "schema_validated": true,
+    "real_allow_deny_and_fail_closed_tested": true
+  },
+  "retry": {
+    "quote_attempts": 3,
+    "quote_retry_http": [
+      500,
+      502,
+      503
+    ],
+    "live_provider_retries": {
+      "max_additional": 2,
+      "only_http": [
+        429,
+        "5xx"
+      ]
+    },
+    "provider_sdk_internal_retries": 0
+  },
+  "budgets": {
+    "max_http_attempts": 20,
+    "max_tokens": 30000,
+    "max_usd": 1.0,
+    "max_paid_wall_seconds": 600,
+    "request_timeout_seconds": 20
+  },
+  "live_actual": {
+    "http_attempts": 18,
+    "input_tokens": 8214,
+    "output_tokens": 1190,
+    "total_tokens": 9404,
+    "estimated_usd": 0.0140915,
+    "paid_wall_seconds": 31.181
+  },
+  "early_exit": {
+    "triggered": true,
+    "reason": "PII detector false positive on Alembic revision",
+    "live_calls_after_trigger": 0,
+    "resolved_by_detector_fix_and_clean_rescan": true
+  },
+  "validation_boundaries": {
+    "docker": false,
+    "ci_remote": false,
+    "langfuse_operational": false,
+    "anthropic_live": false,
+    "otlp_local": true,
+    "openai_live": true,
+    "redis_live": true,
+    "cedar_live": true
+  },
+  "checksums": [
+    {
+      "path": "README.md",
+      "sha256": "fdb91997024b6c579f983a9ed3357cbd0c3fc7e87ae2045fa0f67533825e060f",
+      "size": 1850
+    },
+    {
+      "path": "RUN_ID",
+      "sha256": "dea5ad90a01b296d7a0a32a4a98751ce4be7e39d557eba286e093c26300af2f3",
+      "size": 17
+    },
+    {
+      "path": "baseline-results.json",
+      "sha256": "a7731c2ab6fc06d3eba50fea9a9889ab9008316e83f9f64b9610b1aab9ab197f",
+      "size": 2176
+    },
+    {
+      "path": "benchmark-baseline.json",
+      "sha256": "604a2a059196c8b2e8882b8219c2227a09fda40ab5c0974bb21619d9d68f8267",
+      "size": 839
+    },
+    {
+      "path": "e2e-happy-agents-sdk.json",
+      "sha256": "bbf756a36a144098125b1a0b2a71b6dcb55bca32533c47e38dca78fb0fcbf3af",
+      "size": 2924
+    },
+    {
+      "path": "e2e-happy-openai.json",
+      "sha256": "ba34a2fe30e5fb5e31a58327acbc483323cabfd96c6bece5835088789ac84813",
+      "size": 4465
+    },
+    {
+      "path": "environment-summary.json",
+      "sha256": "d54fd60ff2accfac7ac27131aa1c32161859aaf6f6ec2c1cd4b2a824aaf84222",
+      "size": 851
+    },
+    {
+      "path": "eval-fleet-baseline.json",
+      "sha256": "e0a8487c26efd994fe2224c67b95cb2cab144b67228b7ba3aad1898204ce1c47",
+      "size": 21643
+    },
+    {
+      "path": "eval-fleet-real-traces.json",
+      "sha256": "5a0455794de59872b4476ebc88b54101c42ce55ed555b6e94b68069df8c3bbfb",
+      "size": 4584
+    },
+    {
+      "path": "eval-results.json",
+      "sha256": "c51fc8d1ba1fb985df8f241a70d71c3d0ceddfd87539adca974ac1130aa6846f",
+      "size": 6435
+    },
+    {
+      "path": "gitleaks-git-final.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    {
+      "path": "gitleaks-mirror-final.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    {
+      "path": "instability-report.json",
+      "sha256": "881654779310ed6401c4bf5b658d02b088b5d60657e8a85e2215415f8ac111a4",
+      "size": 7748
+    },
+    {
+      "path": "junit-baseline.xml",
+      "sha256": "e8f3dac088f98194ffc69e1bc044ebab2823b3bc96eb6f7353ae58a6d932c47e",
+      "size": 6794
+    },
+    {
+      "path": "junit-final.xml",
+      "sha256": "0e3af46dd497170e76fbe1487a5a83f0e09dcacddf68d557566a9d2f906c6cf9",
+      "size": 8208
+    },
+    {
+      "path": "junit-provider-controls.xml",
+      "sha256": "e06062179d18a62dac8daffe9b8c999a234c3a56b419cfb84108cfee32bb0784",
+      "size": 6793
+    },
+    {
+      "path": "junit.xml",
+      "sha256": "22fcf24987091f722e81c23a2996599efd8d0574b654fd4ac0bd9af9c8c8eadb",
+      "size": 8311
+    },
+    {
+      "path": "live-budget.json",
+      "sha256": "7b0c778b91d4a7a72cb4af4eaec34516509d01faebe59a4c65b79741bc0b8f60",
+      "size": 380
+    },
+    {
+      "path": "live-provider-results.json",
+      "sha256": "1bfd0e36d7cac21cb4d463821c5e30f80c2520522566bc793a48189eb3684e76",
+      "size": 3943
+    },
+    {
+      "path": "negative-path-results.json",
+      "sha256": "ac9fd80642ae3e6c7497e4a2f2b98c50b3e41dfb81437f4418fff809429fe2de",
+      "size": 14000
+    },
+    {
+      "path": "pii-secret-scan-summary.json",
+      "sha256": "dd2fdd03cc7be2c6a8b995489de754d16f99bb7c9fa127d17279bc9a9c630d7d",
+      "size": 1434
+    },
+    {
+      "path": "semantic-cache-baseline.json",
+      "sha256": "2d639f13ec191fb5aece542c397b6922fbf8029ff2462693338bcbf98c6e069a",
+      "size": 3729
+    },
+    {
+      "path": "smoke-openai.json",
+      "sha256": "4e7b5220020bd6767fea5f436a547c45123d7b0a8f9cc0f1076128d996f1b0de",
+      "size": 490
+    },
+    {
+      "path": "snapshot-comparison.json",
+      "sha256": "04f258fbb22ac47de096ef34582436431458ff1e38dccf967ab5ad98233dd1ca",
+      "size": 2587
+    },
+    {
+      "path": "traces/agents-sdk.json",
+      "sha256": "12c9e3837b26613040d3af15f73f642b3fe98aa1b01a3437f350f1f24f2705b1",
+      "size": 22356
+    },
+    {
+      "path": "traces/openai.json",
+      "sha256": "06d6483cbb24df5a7bd478f077403629440a2a4b1ac08a8cf3ef076d0c648777",
+      "size": 23032
+    }
+  ],
+  "secrets_included": false
+}

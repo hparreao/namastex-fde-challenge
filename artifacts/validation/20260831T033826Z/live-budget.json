@@ -1,0 +1,21 @@
+{
+  "limits": {
+    "calls": 20,
+    "tokens": 30000,
+    "usd": 1.0,
+    "paid_wall_seconds": 600.0
+  },
+  "used": {
+    "http_attempts": 18,
+    "input_tokens": 8214,
+    "output_tokens": 1190,
+    "total_tokens": 9404,
+    "estimated_usd": 0.0140915,
+    "paid_wall_seconds": 31.181
+  },
+  "remaining": {
+    "http_attempts": 2,
+    "tokens": 20596,
+    "usd": 0.9859085
+  }
+}

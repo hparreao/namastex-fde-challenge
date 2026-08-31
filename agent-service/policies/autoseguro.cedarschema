@@ -1,0 +1,46 @@
+namespace AutoSeguro {
+  entity Session;
+
+  action CallLLM appliesTo {
+    principal: [Session],
+    resource: [Session],
+    context: {
+      sessionState: String,
+      sanitized: Bool,
+      destination: String
+    }
+  };
+
+  action CallQuote appliesTo {
+    principal: [Session],
+    resource: [Session],
+    context: {
+      sessionState: String,
+      dataComplete: Bool,
+      confirmed: Bool,
+      sanitized: Bool,
+      destination: String
+    }
+  };
+
+  action PersistAudit appliesTo {
+    principal: [Session],
+    resource: [Session],
+    context: { sanitized: Bool }
+  };
+
+  action CompleteSession appliesTo {
+    principal: [Session],
+    resource: [Session],
+    context: {
+      sessionState: String,
+      quoteSucceeded: Bool
+    }
+  };
+
+  action HandoffSession appliesTo {
+    principal: [Session],
+    resource: [Session],
+    context: { reasonPresent: Bool }
+  };
+}

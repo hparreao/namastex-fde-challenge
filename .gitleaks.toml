@@ -1,0 +1,10 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Documented capability-token placeholders, never runtime credentials"
+regexTarget = "secret"
+regexes = [
+  '''SESSION_TOKEN''',
+  '''CAPABILITY_TOKEN_REDACTED''',
+]

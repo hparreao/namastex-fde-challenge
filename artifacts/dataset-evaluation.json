@@ -1,0 +1,12 @@
+{
+  "dataset_rows": 26470,
+  "conversations": 2500,
+  "text_rows_with_detectable_pii": 5621,
+  "pii_rows_leaking_after_redaction": 0,
+  "redaction_pass_rate": 1.0,
+  "age_extraction_accuracy": 1.0,
+  "vehicle_year_extraction_accuracy": 1.0,
+  "media_rows": 1789,
+  "price_ground_truth_used": false,
+  "note": "Preços do histórico são aleatórios e não participam da cotação nem da avaliação."
+}

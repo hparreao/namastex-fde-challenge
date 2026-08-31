@@ -1,0 +1,31 @@
+{
+  "run_id": "20260831T033826Z",
+  "head_at_start": "52a006ca8ea571c3b9618be6886cb2ee20b6f6b8",
+  "python": "3.13.8",
+  "dependencies": {
+    "openai": "3.5.0",
+    "openai-agents": "0.22.0",
+    "fastapi": "0.141.1",
+    "sqlalchemy": "2.0.52",
+    "psycopg": "3.3.4",
+    "redis": "8.1.0",
+    "opentelemetry-sdk": "1.44.0",
+    "cedarpy": "4.8.7",
+    "pytest": "9.1.1",
+    "ruff": "0.16.5",
+    "mypy": "2.3.1",
+    "pip-audit": "2.10.1"
+  },
+  "services": {
+    "postgresql": "17.10 Homebrew",
+    "redis_server": "8.10.1",
+    "gitleaks": "8.30.1",
+    "validation_database": "autoseguro_validation_20260831t033826z",
+    "validation_database_host": "127.0.0.1",
+    "validation_database_port": 5432,
+    "redis_port": 6391,
+    "quote_service_stable_port": 8001,
+    "quote_service_seeded_port": 8002
+  },
+  "secret_values_included": false
+}

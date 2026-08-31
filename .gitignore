@@ -5,10 +5,14 @@ __pycache__/
 venv/
 .uv/
 *.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # env / secrets (NUNCA commitar)
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 
@@ -18,5 +22,15 @@ venv/
 .vscode/
 *.log
 
-# ...mas os logs de IA são entregável — ver README (Transparência de uso de IA)
-!ai-logs/**
+# Somente o export principal sanitizado e seu material de reprodução são entregáveis.
+ai-logs/*
+!ai-logs/README.md
+!ai-logs/manifest.json
+!ai-logs/codex-main-session-sanitized.jsonl
+!ai-logs/sanitize_codex_session.py
+ai-logs/__pycache__/
+ai-logs/*.py[cod]
+
+# Evidência local recuperável de auditoria; nunca publicar.
+artifacts/backups/
+artifacts/release-readiness/

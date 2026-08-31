@@ -1,135 +1,316 @@
-# Desafio Técnico — FDE / AI Engineer (Namastex)
+# AutoSeguro Agent
 
-Bem-vindo(a)! Este é um teste **take-home** que espelha o trabalho real de um FDE
-(Forward Deployed Engineer) na Namastex: subir um **agente de verdade**, conectado a
-sistemas que nem sempre colaboram, em cima de **dados bagunçados do mundo real**.
+Solução local auditável para o desafio FDE da Namastex. O agente qualifica o lead, confirma os dados e apresenta somente preços retornados por `POST /quote`. A state machine determinística mantém autoridade sobre transições, retries, preço, handoff, persistência e side effects. O modelo apenas extrai dados e classifica intenção.
 
-> ⏱️ **Tempo:** ~3 dias de relógio. **Espera-se que você use AI coding tools**
-> (Claude Code, Cursor, ChatGPT, etc.) — isso é a régua aqui, não trapaça. A gente quer ver
-> você orquestrando IA pra entregar com qualidade e velocidade.
->
-> 📎 Por isso mesmo: **as conversas que você teve com as IAs fazem parte da entrega.**
-> Veja [Transparência de uso de IA](#transparência-de-uso-de-ia-obrigatório) — é obrigatório.
+## Caminho mínimo sem chamada paga
 
----
-
-## O cenário
-
-Você é o engenheiro responsável por uma seguradora fictícia, a **AutoSeguro**. O time
-de vendas atende leads por **WhatsApp** e fecha seguro de **veículo**. Sua missão é
-construir um **agente** que:
-
-1. **Conversa** com o lead, qualifica e **cota um plano** usando a nossa API de cotação.
-2. **Decide** quando consegue resolver sozinho e quando precisa **passar pra um humano**.
-3. Não trava nem inventa preço quando a infraestrutura falha.
-
-Te entregamos três coisas (tudo neste repo):
-
-| Insumo | Onde | O que é |
-|---|---|---|
-| **API de cotação** | `quote-service/` | Serviço HTTP `POST /quote` que você sobe local com Docker |
-| **Histórico de conversas** | `dataset/conversations.parquet` | ~2.500 conversas reais* lead↔vendedor (*sintéticas, ver dicionário) |
-| **Dicionário de dados** | `dataset/DICIONARIO.md` | Esquema do dataset |
-
----
-
-## Subindo a API de cotação
+Este foi o caminho nativo validado no macOS; Docker Compose permanece uma alternativa com
+validação somente estática nesta entrega.
 
 ```bash
-docker compose up --build
-# API em http://localhost:8000
+brew install postgresql@17 redis
+brew services start postgresql@17
+/opt/homebrew/opt/postgresql@17/bin/createuser --createdb autoseguro
+/opt/homebrew/opt/postgresql@17/bin/createdb --owner=autoseguro autoseguro
+/opt/homebrew/opt/postgresql@17/bin/psql -d postgres \
+  -c "ALTER USER autoseguro WITH PASSWORD 'autoseguro';"
+
+cd agent-service
+uv sync --extra dev --extra redis --extra observability --extra policy --extra agents
+cp .env.example .env
+.venv/bin/alembic upgrade head
 ```
 
-Sem Docker? Dá pra rodar direto:
+Em um terminal, suba o serviço legado. Em outro, execute a demo com provider determinístico,
+sem credencial e sem chamada paga:
 
 ```bash
-cd quote-service && uv run uvicorn app.main:app --port 8000
+agent-service/.venv/bin/uvicorn app.main:app --app-dir quote-service --port 8000
 ```
-
-Endpoints:
-
-- `GET  /health` — health check
-- `GET  /planos` — tabela de planos **e as regras de cotação** (leia com atenção)
-- `POST /quote` — calcula a cotação
-
-Exemplo:
 
 ```bash
-curl -X POST localhost:8000/quote -H 'content-type: application/json' \
-  -d '{"plano_id":"completo","idade":35,"veiculo_ano":2022,"cep":"01310-100","data_inicio":"2026-07-15"}'
+cd agent-service
+LLM_PROVIDER=fake .venv/bin/autoseguro demo \
+  --output ../artifacts/demo-conversation.jsonl
 ```
 
-> ⚠️ **Aviso de operação:** a `/quote` simula um sistema legado real — ela **não responde
-> de primeira toda vez** (falhas e lentidão acontecem). Seu agente precisa lidar com isso
-> de forma elegante. Tratar bem a instabilidade é parte central do desafio.
+O resultado esperado é estado `completed`, uma única tentativa HTTP 200 e preço idêntico
+ao payload validado do quote-service. O artifact JSONL e a trace sanitizada ficam em
+`artifacts/`.
 
----
+## Régua do desafio
 
-## O que entregar
+| Requisito | Risco | Mecanismo | Evidência |
+| --- | --- | --- | --- |
+| Atendimento ponta a ponta | estado incoerente | state machine explícita | E2E OpenAI e testes de service |
+| Preço oficial | valor inventado | schema do upstream e tentativa HTTP 200 | trace live, banco isolado e testes contratuais |
+| Falha segura | preço em timeout/erro | retry allowlist e handoff | testes negativos e campanha seeded |
+| Concorrência | duas cotações | idempotency key e lock por sessão | testes de API/Redis |
+| Rastreabilidade | eventos órfãos | IDs de request, trace, sessão, mensagem, evento e quote | endpoint `/trace` e traces live |
+| Privacidade | PII ou token persistido | redaction anterior ao LLM/persistência e token com hash | scans de PostgreSQL, Redis, traces e artifacts |
+| Autoridade determinística | side effect probabilístico | modelo limitado a `AgentDecision` | providers sem tools de cotação |
 
-1. **Um agente** que atende um lead de ponta a ponta: conversa → qualifica → cota → decide
-   (resolve ou encaminha pro humano, com critério claro).
-2. **Repositório público no GitHub** com o código.
-3. **README** explicando como rodar e **as decisões que você tomou** (e por quê).
-4. **Log de uma execução completa** (uma conversa do início ao fim, com a cotação saindo).
-5. **As suas conversas com as IAs**, exportadas dentro do repo — ver a seção abaixo.
+## Arquitetura
 
-Você pode usar o dataset de conversas como bem entender (ex.: few-shot, avaliação,
-entender padrões de objeção, testar seu agente). Use o que fizer sentido pra sua solução.
+```mermaid
+flowchart LR
+    Lead[API ou CLI] --> HTTP[FastAPI]
+    HTTP --> Coord[Coordenação local ou Redis]
+    HTTP --> State[State machine determinística]
+    State --> LLM[LLMProvider]
+    LLM --> OA[OpenAI Responses]
+    LLM --> SDK[OpenAI Agents SDK opcional]
+    LLM --> AN[Anthropic Messages]
+    LLM --> Fake[FakeProvider]
+    State --> Cedar[Cedar shadow ou enforce]
+    State --> Quote[quote-service /quote]
+    State --> DB[(PostgreSQL)]
+    State --> Human[Handoff humano]
+    HTTP --> Trace[Trace sanitizada]
+    Trace --> DB
+    Trace -. opcional .-> OTLP[OpenTelemetry OTLP / Langfuse]
+```
 
----
+O `quote-service/` legado foi preservado. O dataset sintético é usado para avaliar extração, mídia e redaction; seus preços aleatórios não alimentam prompts, cache nem respostas. O runtime não é multi-agent. Handoff humano é um estado de negócio, sem handoff do OpenAI Agents SDK.
 
-## Transparência de uso de IA (obrigatório)
+Componentes:
 
-A gente **quer** que você use IA — e faz parte da entrega mostrar o processo, não só o
-resultado final. Esses logs **entram na avaliação** junto com o código.
+- `agent-service/`: FastAPI, CLI, state machine, providers, coordenação, policy, telemetry e testes.
+- `policies/`: schema e políticas Cedar validados pelo engine real.
+- `agent-service/evals/`: casos adversariais de cache e traces rotuladas da eval-fleet.
+- `artifacts/`: demo, trace, benchmarks e relatórios agregados sem PII.
+- `ai-logs/`: export sanitizado da sessão Codex e sanitizador reproduzível.
+- `docs/adr/`: decisões de Redis, observabilidade, Cedar, cache, pgvector, Agents SDK e eval-fleet.
 
-**Exporte todas as conversas que você teve com IAs durante o desafio** — ChatGPT,
-Claude Code, Cursor, Copilot Chat, Gemini, o que tiver usado — e **inclua no repo**,
-numa pasta `ai-logs/`.
+## Setup local
 
-Como exportar, por ferramenta:
+Requisitos usados nesta validação: PostgreSQL 17, Redis, Python `>=3.11` e `uv 0.12.7`
+(a mesma versão fixada na CI).
 
-| Ferramenta | Como |
-|---|---|
-| **ChatGPT** | Menu da conversa → *Share* (link público) ou *Export*. Cole o link ou salve o arquivo |
-| **Claude.ai** | Menu da conversa → *Share* ou *Export* |
-| **Claude Code** | As sessões ficam em `~/.claude/projects/<slug-do-projeto>/*.jsonl` — copie os arquivos |
-| **Codex CLI** | Sessões em `~/.codex/sessions/` |
-| **Cursor / Windsurf** | Exporte ou copie o histórico do painel de chat pra um `.md` |
-| **Copilot Chat / outros** | Copie e cole num `.md` mesmo — serve |
+Confirme a versão com `uv --version`. O número da versão não faz parte da sintaxe do
+comando; mesmo com `uv 0.12.7` instalado, a invocação correta começa com `uv sync`.
 
-Não precisa ser bonito. Um `.jsonl` cru, um `.md` com copy-paste ou uma lista de links
-públicos resolve — pode mandar o histórico como ele saiu.
+```bash
+brew install postgresql@17 redis
+brew services start postgresql@17
+brew services start redis
 
-> ⚠️ **Tire os seus segredos antes de commitar** (API keys, tokens, dados pessoais seus).
-> Isso vai pra um repo público.
+/opt/homebrew/opt/postgresql@17/bin/createuser --createdb autoseguro
+/opt/homebrew/opt/postgresql@17/bin/createdb --owner=autoseguro autoseguro
+/opt/homebrew/opt/postgresql@17/bin/psql -d postgres \
+  -c "ALTER USER autoseguro WITH PASSWORD 'autoseguro';"
 
-Se a exportação não for viável na sua ferramenta, **avise antes de entregar** — a gente
-combina uma sessão de tela compartilhada pra você mostrar o passo a passo, e está tudo certo.
+cd agent-service
+uv sync --extra dev --extra redis --extra observability --extra policy --extra agents
+cp .env.example .env
+.venv/bin/alembic upgrade head
+```
 
----
+As credenciais do exemplo são exclusivamente locais. Produção requer secret manager, TLS, retenção definida, rotação e identidade mais forte que o capability token por sessão.
 
-## Como a gente vai olhar
+```bash
+agent-service/.venv/bin/uvicorn app.main:app --app-dir quote-service --port 8000
+```
 
-Sem pegadinha escondida na avaliação — o que importa:
+```bash
+cd agent-service
+LLM_PROVIDER=fake COORDINATION_BACKEND=redis \
+  .venv/bin/uvicorn autoseguro.api:app --port 8080
+```
 
-- **Funciona de ponta a ponta?** O agente cota certo e não quebra no caminho feliz.
-- **O que ele faz quando a `/quote` falha?** (esse é o ponto que mais separa.)
-- **O critério de passar pro humano é explícito e defensável?**
-- **Dá pra rastrear o que aconteceu?** (cada mensagem/cotação, com id e status.)
-- **Cuidado com dados sensíveis.** O histórico tem informação pessoal — pense nisso.
-- **Qualidade:** outro engenheiro consegue pegar seu código e entender as decisões?
-- **Como você usou a IA.** Os `ai-logs/` entram na avaliação junto com o código.
+`docker-compose.yml` contém PostgreSQL 17, Redis, quote-service e agent-service. Docker não estava instalado nesta revisão; o Compose teve inspeção estática e não deve ser tratado como executado localmente.
 
-> 💡 Não existe "formato de saída certo" definido de propósito. Queremos ver **a sua decisão** de engenharia.
+## Providers
 
----
+`LLM_PROVIDER` aceita `fake`, `openai`, `anthropic` e `agents_sdk`. O padrão configurado é `openai` com `gpt-5.4-mini`.
 
-## Entrega
+```bash
+export OPENAI_API_KEY="..."
+export LLM_PROVIDER=openai        # ou agents_sdk
+export LLM_MODEL=gpt-5.4-mini
+```
 
-Mande o link do repo público — com o código **e** a pasta `ai-logs/`.
-Qualquer dúvida, fale com quem te enviou o desafio.
-Quando começar, **avise** — a gente marca a conversa de feedback logo depois da entrega.
+O `AgentsSDKProvider` usa um único `Agent`, structured output `AgentDecision`, nenhuma tool, nenhum handoff e `max_turns=1`. Recebe apenas mensagem sanitizada, estado e dados mínimos. Não pode chamar `/quote`, calcular preço, persistir ou alterar estado. O tracing nativo fica desabilitado para evitar duplicidade com OpenTelemetry; `trace_include_sensitive_data=False` e o trace ID canônico ainda fazem parte do `RunConfig` testado.
 
-Boa! 🚀
+O adapter foi testado com `openai-agents==0.22.0`, mocks e API real. Na campanha `20260831T033826Z`, o OpenAIProvider completou o fluxo E2E. O AgentsSDKProvider fez chamadas reais, mas um `APIConnectionError` sem status durante o happy path acionou fallback determinístico e a sessão terminou em handoff; equivalência E2E entre os providers não foi demonstrada. Anthropic permanece coberto somente por mocks.
+
+Os artifacts identificam os snapshots `gpt-5.4-mini-2026-03-17` e
+`gpt-5.4-2026-03-05`. Reasoning effort não foi enviado explicitamente nem registrado na
+campanha. A documentação atual informa default `none` para ambos; isso permite uma inferência
+sobre a execução, sem fornecer evidência request-level do parâmetro efetivo.
+
+## API e CLI
+
+```bash
+curl -s -X POST http://localhost:8080/v1/sessions
+```
+
+A resposta entrega `session_token` uma única vez. Somente o hash SHA-256 é persistido. Mensagens exigem o token e uma idempotency key por operação lógica:
+
+```bash
+curl -s -X POST http://localhost:8080/v1/sessions/SESSION_ID/messages \
+  -H 'x-session-token: SESSION_TOKEN' \
+  -H 'idempotency-key: message-0001' \
+  -H 'content-type: application/json' \
+  -d '{"content":"Toyota Corolla 2022","message_type":"text"}'
+```
+
+Repetir chave e payload retorna a mesma resposta. Reutilizar a chave com payload diferente retorna HTTP 409. O lock curto por sessão impede processamento e cotação concorrentes.
+
+```bash
+curl -s -H 'x-session-token: SESSION_TOKEN' \
+  http://localhost:8080/v1/sessions/SESSION_ID
+curl -s -H 'x-session-token: SESSION_TOKEN' \
+  http://localhost:8080/v1/sessions/SESSION_ID/trace
+curl -s http://localhost:8080/health
+```
+
+```bash
+cd agent-service
+.venv/bin/autoseguro chat --provider openai
+.venv/bin/autoseguro demo --provider fake --output ../artifacts/demo-conversation.jsonl
+```
+
+A demo também gera `artifacts/demo-conversation-trace.json` com transições, quote attempts e eventos técnicos sanitizados.
+
+## Redis e degradação explícita
+
+| Controle | Redis indisponível | Motivo |
+| --- | --- | --- |
+| Rate limiting compartilhado | limiter local e `X-Control-Degraded` | preserva disponibilidade e expõe perda de coordenação horizontal |
+| Idempotência | fail closed, HTTP 503 | prosseguir poderia duplicar cotação e resposta |
+| Lock por sessão | fail closed, HTTP 503 | prosseguir permitiria transições concorrentes |
+| Circuit breaker | fail open, com warning | timeout, retries e handoff ainda limitam a falha |
+
+Chaves Redis usam SHA-256, recebem prefixo configurável por `REDIS_KEY_PREFIX` e os valores de idempotência contêm apenas resposta sanitizada. A campanha live usou namespace exclusivo por `RUN_ID` em uma instância efêmera dedicada. A garantia não cobre falha do processo depois que o quote-service aceita a requisição, pois o endpoint legado não recebe idempotency key upstream. O ADR 0001 documenta esse limite.
+
+## Fluxo, retries e handoff
+
+Estados: `qualification`, `plan_selection`, `confirmation`, `quoting`, `quote_presented`, `completed` e `handoff`.
+
+Timeouts, erros de transporte e HTTP 500/502/503 recebem até três tentativas, timeout de três segundos e backoff exponencial com jitter. HTTP 400 e 422 não são repetidos. Cada tentativa registra `quote_id`, número, status, HTTP status, duração e categoria de erro. `quote_id` identifica a operação local; o quote-service legado não devolve ID próprio. A proveniência exige esse ID local, tentativa HTTP 200 e payload upstream validado, cujo preço deve ser idêntico ao apresentado.
+
+Handoff ocorre por pedido explícito, mídia sem transcrição, ambiguidade persistente, recusa de elegibilidade, payload inválido, falha esgotada, policy deny em ENFORCE ou negociação depois da proposta. Falhas de cotação produzem explicação segura sem preço estimado.
+
+## Cedar policy as code
+
+Cedar autoriza `CallLLM`, `CallQuote`, `PersistAudit`, `CompleteSession` e `HandoffSession` com principal, action, resource e context tipados e default deny. `CallQuote` exige estado de confirmação, dados completos, confirmação, sanitização e destino `quote-service`.
+
+O padrão `POLICY_MODE=shadow` registra Allow/Deny sem bloquear. `POLICY_MODE=enforce` pode bloquear `POLICY_ENFORCE_ACTIONS`; indisponibilidade do engine bloqueia `CallQuote` e gera handoff seguro. Cedar foi executado com schema e policy reais por `cedarpy 4.8.7`, binding comunitária do engine Rust. “Semantic firewall” é apenas analogia; Cedar não detecta alucinação.
+
+## Observabilidade e privacidade
+
+CPF, e-mail, telefone, placa e CEP completo são mascarados antes da persistência, do LLM e da exportação. Apenas o prefixo de dois dígitos do CEP é retido. O sistema não solicita documentos, CPF ou telefone.
+
+Cada mensagem cria uma trace com `correlation_id`, `message_id`, `session_id` e `canonical_trace_id`; cada evento persistido possui `event_id`. Há spans para autorização, redaction, LLM, fallback, transição, Cedar, quote attempts e handoff ou completion. Provider, modelo, versões de prompt/schema, duração, usage, status, erro e cache status são permitidos. Raw prompt, raw response, conteúdo, capability token e PII são bloqueados client-side.
+
+Eventos sanitizados são persistidos no PostgreSQL e retornados por `/trace`. OpenTelemetry OTLP é opcional e desabilitado por padrão. Um endpoint compatível, inclusive Langfuse, pode ser configurado sem infraestrutura self-hosted no Compose. Falha de inicialização ou exportação não interrompe a aplicação. O exporter foi testado com receiver protobuf local e endpoint indisponível. Nenhum servidor Langfuse foi executado, logo Langfuse permanece compatibilidade arquitetural sem validação operacional.
+
+## Eval-fleet offline
+
+`QuoteIntegrityEvaluator`, `PrivacyEvaluator`, `HandoffEvaluator` e `ResilienceEvaluator` processam somente `SanitizedTrace`, sem tools ou side effects. Cada resultado inclui `passed`, `score`, `findings`, `evidence_event_ids`, `confidence`, latência, tokens e custo. Avaliações independentes rodam em paralelo; agregação e ordenação são determinísticas.
+
+```bash
+cd agent-service
+.venv/bin/python scripts/evaluate_fleet.py
+```
+
+Em dez traces sintéticas rotuladas, o baseline teve concordância `0,90`, quatro falsos negativos e zero falsos positivos. A fleet determinística teve concordância `1,00`, zero falsos positivos, zero falsos negativos e encontrou quatro defeitos adicionais de handoff/resiliência, com zero LLM calls, tokens e custo. Nas duas traces live, a fleet aprovou ambas estruturalmente e não identificou que o happy path do Agents SDK terminou em handoff. Esse falso negativo confirma que a fleet não substitui as invariantes programáticas. LLM judges continuam rejeitados por falta de ganho diagnóstico calibrado.
+
+## Dataset, cache e benchmark
+
+`artifacts/dataset-evaluation.json` registra 26.470 mensagens, 2.500 conversas, 5.621 mensagens com PII detectável, zero vazamentos após redaction, 100% de acurácia para idade/ano no padrão sintético e 1.789 mídias encaminháveis. Esses números não demonstram desempenho em conversas reais.
+
+Semantic cache foi rejeitado: no proxy adversarial, o namespace completo ainda teve unsafe false-hit rate `0,5833`. Nenhum cache de decisão foi implementado. `pgvector` foi rejeitado porque não houve hipótese de retrieval com ganho medido; nenhum índice ou vector store foi criado.
+
+`artifacts/baseline-vs-enabled.json` compara 100 iterações na última regeneração local:
+baseline p50 `4,878 ms`, p95 `5,922 ms`; OpenTelemetry em memória mais Cedar shadow p50
+`5,504 ms`, p95 `8,853 ms`; equivalência `100/100`; 100 chamadas determinísticas por
+variante; tokens indisponíveis; cache hit rate zero. O p95 é descritivo e não define SLA.
+Redis, exportação OTLP, Langfuse e LLM real ficaram fora desse benchmark.
+
+## Custo, latência e escolha do default
+
+A campanha live respeitou os limites: 18 de 20 tentativas HTTP, 9.404 de 30.000 tokens,
+USD 0,0140915 de USD 1,00, 31,181 de 600 segundos pagos e 1.555,721 de 1.800 segundos
+totais. Todas as requests tinham timeout de 20 segundos e retries internos dos SDKs estavam
+desabilitados. Uma falha sem usage consumiu a reserva conservadora de 1.000 input e 300
+output tokens; não foi contabilizada como custo zero.
+
+As tarifas usadas, verificadas em 31 de agosto de 2026, foram: GPT-5.4 mini USD 0,75/M
+input, USD 0,075/M cached input e USD 4,50/M output; GPT-5.4 USD 2,50/M input,
+USD 0,25/M cached input e USD 15/M output. Cached input não foi capturado nos artifacts,
+portanto todo input foi cobrado conservadoramente pela tarifa integral. Fontes:
+[GPT-5.4 mini](https://developers.openai.com/api/docs/models/gpt-5.4-mini) e
+[GPT-5.4](https://developers.openai.com/api/docs/models/gpt-5.4).
+
+Nas 18 tentativas, mínimo, mediana, máximo e p95 nearest-rank descritivo foram 8 ms,
+1.413 ms, 4.646 ms e 4.646 ms. O mínimo corresponde ao `APIConnectionError` do Agents SDK.
+Nas 17 respostas bem-sucedidas, os valores foram 841 ms, 1.504 ms e 4.646 ms. Essa amostra
+pequena não sustenta SLA.
+
+O happy path do provider direto custou USD 0,001662 em três decisões. Se 100% das sessões
+repetirem exatamente esse fluxo de três turnos, sem cache, evals, judges ou infraestrutura,
+a projeção é USD 1,662 para 1.000 sessões e USD 166,20 para 100.000. Os evals live custaram
+USD 0,004977; a comparação com GPT-5.4, USD 0,00368; judges custaram zero porque foram
+rejeitados e não executados. O custo médio foi USD 0,000783 por tentativa HTTP e
+USD 0,000829 por decisão estruturada bem-sucedida.
+
+Na comparação de snapshots, duas observações por modelo produziram decisões equivalentes
+para injection e negociação. A mediana foi 1.281,5 ms no mini e 2.953,5 ms no GPT-5.4.
+Nenhum ganho mensurável justificou o modelo mais caro. Na comparação de adapters, as quatro
+decisões rotuladas equivalentes tiveram qualidade igual, mas apenas o provider direto
+concluiu o E2E; por confiabilidade e menor superfície, ele permanece o default recomendado.
+
+## Testes e CI
+
+```bash
+cd agent-service
+.venv/bin/ruff format --check .
+.venv/bin/ruff check .
+.venv/bin/mypy --strict src/autoseguro
+.venv/bin/pytest -ra
+.venv/bin/pip-audit
+cd ..
+gitleaks dir . --redact=100
+```
+
+`.github/workflows/ci.yml` executa Ruff, mypy strict, Alembic do zero, pytest com PostgreSQL 17 e Redis, `pip-audit` e Gitleaks. Actions estão fixadas por SHA e permissões são somente leitura.
+
+## Evidências da campanha `20260831T033826Z`
+
+- Validado localmente: Ruff, mypy strict em 19 módulos, Alembic `20260829_0003` partindo de banco vazio, PostgreSQL 17.10, Redis efêmero, quote-service real, Cedar real, OTLP local, pip-audit e suíte completa.
+- Validado contra OpenAI real: 18 tentativas HTTP, 9.404 tokens contabilizados e custo estimado de USD 0,0140915. O smoke estruturado passou; OpenAIProvider completou o happy path; AgentsSDKProvider apresentou a falha descrita acima.
+- Comparação live: `gpt-5.4-mini-2026-03-17` e `gpt-5.4-2026-03-05` foram executados nos mesmos casos de injection e negociação. A amostra tem duas observações por snapshot e não sustenta superioridade estatística; p95 é apenas descritivo onde reportado.
+- Testado com mocks: Anthropic, falhas 400/422/500/502/503, timeout, conexão recusada, circuit breaker, Redis indisponível, Cedar deny/fail-closed, concorrência, idempotência, fallback e observabilidade indisponível.
+- Não executado: Docker, CI remoto, Langfuse operacional e Anthropic real.
+- Semantic cache e pgvector permanecem rejeitados. A instabilidade real foi executada somente com seed `4242`; não houve amostra sem seed.
+
+A regressão completa de release executou 70 testes com PostgreSQL e Redis reais, sem skips.
+Os casos anteriores permanecem cobertos pela suíte expandida. Evidências detalhadas, falhas
+e limitações ficam em `artifacts/validation/20260831T033826Z/`. A publicação deste repositório
+no GitHub faz parte da entrega; não há deploy de produção ou provisionamento externo.
+
+## Índice de artifacts e arquivos públicos
+
+Os arquivos centrais da campanha são:
+
+- `manifest.json`, `live-budget.json` e `live-provider-results.json`: limites, runtime,
+  tentativas, usage, custo e duração;
+- `e2e-happy-openai.json` e `traces/openai.json`: fluxo concluído e correlação;
+- `e2e-happy-agents-sdk.json`: falha segura e limite observado do adapter;
+- `snapshot-comparison.json`: comparação dos modelos, sem inferência estatística;
+- `negative-path-results.json` e `instability-report.json`: falhas determinísticas e seeded;
+- `eval-results.json` e `eval-fleet-real-traces.json`: métricas separadas e o falso negativo;
+- `pii-secret-scan-summary.json`: contagens por superfície, sem reproduzir valores;
+- `artifacts/demo-conversation.jsonl`: conversa completa sanitizada com cotação;
+- `ai-logs/codex-main-session-sanitized.jsonl`: log sanitizado da sessão principal de
+  implementação, sem alegar totalidade das interações com todas as ferramentas de IA.
+
+Destinam-se ao repositório público: código, testes, dataset fornecido, policies, evals,
+ADRs, CI, Compose, artifacts fora das áreas locais e, em `ai-logs/`, apenas `README.md`,
+`manifest.json`, `sanitize_codex_session.py` e `codex-main-session-sanitized.jsonl`.
+
+Permanecem exclusivamente locais e ignorados: `.env`, `.venv`, caches, bancos, logs de
+processo, `artifacts/backups/`, `artifacts/release-readiness/`, o JSONL original em
+`~/.codex/sessions` e exports históricos auxiliares `ai-logs/codex-session*`.

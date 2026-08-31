@@ -1,0 +1,156 @@
+{
+  "mode": "offline_deterministic_parallel",
+  "runtime_side_effects": false,
+  "traces": [
+    {
+      "provider": "openai",
+      "fleet": {
+        "trace_id": "trace_c65c5570c1ab93ec4432c7a2fcf30ed1",
+        "passed": true,
+        "score": 1.0,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.00304199056699872,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 1.7332080169580877,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "52"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.008209026418626308,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "52"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.009916955605149269,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      },
+      "programmatic_invariants": {
+        "completed": true,
+        "one_successful_quote": true,
+        "no_plaintext_capability_token": true,
+        "no_pii_in_artifact": true,
+        "trace_has_canonical_ids": true
+      },
+      "agreement": true,
+      "gaps": [
+        "evaluators do not validate semantic extraction accuracy",
+        "evaluators infer price provenance from sanitized trace metadata and cannot replay upstream HTTP"
+      ]
+    },
+    {
+      "provider": "agents-sdk",
+      "fleet": {
+        "trace_id": "trace_5a91261fb997ac412eeb44834da64c20",
+        "passed": true,
+        "score": 1.0,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "98"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.0029170187190175056,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 1.758833008352667,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.003374996595084667,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.003915978595614433,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      },
+      "programmatic_invariants": {
+        "completed": false,
+        "one_successful_quote": false,
+        "no_plaintext_capability_token": true,
+        "no_pii_in_artifact": true,
+        "trace_has_canonical_ids": true
+      },
+      "agreement": false,
+      "gaps": [
+        "evaluators do not validate semantic extraction accuracy",
+        "evaluators infer price provenance from sanitized trace metadata and cannot replay upstream HTTP"
+      ]
+    }
+  ],
+  "false_positives": 0,
+  "false_negatives": 1
+}

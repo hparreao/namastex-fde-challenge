@@ -1,0 +1,777 @@
+{
+  "evaluation_version": "eval-fleet.v1",
+  "mode": "offline_deterministic_parallel",
+  "labeled_cases": 10,
+  "baseline": {
+    "agreement_rate": 0.9,
+    "false_positives": 0,
+    "false_negatives": 4,
+    "per_evaluator": {
+      "quote_integrity": {
+        "agreement_rate": 1.0,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "privacy": {
+        "agreement_rate": 1.0,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "handoff": {
+        "agreement_rate": 0.8,
+        "false_positives": 0,
+        "false_negatives": 2
+      },
+      "resilience": {
+        "agreement_rate": 0.8,
+        "false_positives": 0,
+        "false_negatives": 2
+      }
+    },
+    "evaluators": [
+      "quote_integrity",
+      "privacy"
+    ]
+  },
+  "fleet": {
+    "agreement_rate": 1.0,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "per_evaluator": {
+      "quote_integrity": {
+        "agreement_rate": 1.0,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "privacy": {
+        "agreement_rate": 1.0,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "handoff": {
+        "agreement_rate": 1.0,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "resilience": {
+        "agreement_rate": 1.0,
+        "false_positives": 0,
+        "false_negatives": 0
+      }
+    },
+    "evaluators": [
+      "quote_integrity",
+      "privacy",
+      "handoff",
+      "resilience"
+    ],
+    "p50_latency_ms": 0.3029789950232953,
+    "p95_latency_ms": 1.9350420334376395,
+    "llm_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost_usd": 0.0
+  },
+  "additional_defects_found": 4,
+  "cases": [
+    {
+      "case_id": "clean-completion",
+      "expected_failed_evaluators": [],
+      "predicted_failed_evaluators": [],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_clean_completion",
+        "passed": true,
+        "score": 1.0,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.004917033948004246,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.5359579809010029,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.0070829992182552814,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.008957984391599894,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "clean-handoff",
+      "expected_failed_evaluators": [],
+      "predicted_failed_evaluators": [],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_clean_handoff",
+        "passed": true,
+        "score": 1.0,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.003374996595084667,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.06008404307067394,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0024999608285725117,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0015830155462026596,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "invented-price",
+      "expected_failed_evaluators": [
+        "quote_integrity"
+      ],
+      "predicted_failed_evaluators": [
+        "quote_integrity"
+      ],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_invented_price",
+        "passed": false,
+        "score": 0.75,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0010829535312950611,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.06287498399615288,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": false,
+            "score": 0.0,
+            "findings": [
+              "quote_without_successful_quote_attempt",
+              "quote_source_not_proven"
+            ],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.004167028237134218,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0017079873941838741,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "completion-without-quote",
+      "expected_failed_evaluators": [
+        "quote_integrity"
+      ],
+      "predicted_failed_evaluators": [
+        "quote_integrity"
+      ],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_completion_without_quote",
+        "passed": false,
+        "score": 0.75,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0012919772416353226,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.04941597580909729,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": false,
+            "score": 0.0,
+            "findings": [
+              "completion_without_quote"
+            ],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.002874992787837982,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0012919772416353226,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "pii-in-trace",
+      "expected_failed_evaluators": [
+        "privacy"
+      ],
+      "predicted_failed_evaluators": [
+        "privacy"
+      ],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_pii",
+        "passed": false,
+        "score": 0.75,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0015420373529195786,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": false,
+            "score": 0.0,
+            "findings": [
+              "pii_detected:EMAIL",
+              "forbidden_trace_attribute:raw_prompt"
+            ],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.05258404416963458,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0016669509932398796,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0009579816833138466,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "handoff-without-reason",
+      "expected_failed_evaluators": [
+        "handoff"
+      ],
+      "predicted_failed_evaluators": [
+        "handoff"
+      ],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_handoff_without_reason",
+        "passed": false,
+        "score": 0.75,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": false,
+            "score": 0.0,
+            "findings": [
+              "handoff_status_without_reason"
+            ],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.002415967173874378,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0499580055475235,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0014589750207960606,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.001207983586937189,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "failed-quote-with-price",
+      "expected_failed_evaluators": [
+        "handoff"
+      ],
+      "predicted_failed_evaluators": [
+        "handoff"
+      ],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_failed_quote_price",
+        "passed": false,
+        "score": 0.75,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": false,
+            "score": 0.0,
+            "findings": [
+              "failed_quote_handoff_contains_quote"
+            ],
+            "evidence_event_ids": [
+              "e2"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.0016249832697212696,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.08870800957083702,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.0030420487746596336,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "e1"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.006834045052528381,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "duplicate-attempt",
+      "expected_failed_evaluators": [
+        "resilience"
+      ],
+      "predicted_failed_evaluators": [
+        "resilience"
+      ],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_duplicate_attempt",
+        "passed": false,
+        "score": 0.75,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0015829573385417461,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.15120796160772443,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.011708005331456661,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": false,
+            "score": 0.0,
+            "findings": [
+              "duplicate_quote_attempt:q3",
+              "non_contiguous_attempts:q3"
+            ],
+            "evidence_event_ids": [
+              "e1",
+              "e2"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.00662502134218812,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "exhausted-without-handoff",
+      "expected_failed_evaluators": [
+        "resilience"
+      ],
+      "predicted_failed_evaluators": [
+        "resilience"
+      ],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_exhausted_without_handoff",
+        "passed": false,
+        "score": 0.75,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0012500095181167126,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.17337501049041748,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.003167020622640848,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": false,
+            "score": 0.0,
+            "findings": [
+              "exhausted_retries_without_handoff:q4"
+            ],
+            "evidence_event_ids": [
+              "e1",
+              "e2",
+              "e3"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.010916031897068024,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    },
+    {
+      "case_id": "clean-retry-recovery",
+      "expected_failed_evaluators": [],
+      "predicted_failed_evaluators": [],
+      "equivalent": true,
+      "fleet_output": {
+        "trace_id": "trace_retry_recovery",
+        "passed": true,
+        "score": 1.0,
+        "evaluations": [
+          {
+            "evaluator": "handoff",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.0010420335456728935,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "privacy",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [],
+            "confidence": 1.0,
+            "duration_ms": 0.10058400221168995,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "quote_integrity",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "e2"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.0036669662222266197,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          },
+          {
+            "evaluator": "resilience",
+            "passed": true,
+            "score": 1.0,
+            "findings": [],
+            "evidence_event_ids": [
+              "e1",
+              "e2"
+            ],
+            "confidence": 1.0,
+            "duration_ms": 0.008292030543088913,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0
+          }
+        ],
+        "aggregation_version": "eval-fleet.v1"
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic labeled traces test rule calibration, not LLM-judge quality.",
+    "Agents SDK evaluator agents were not run because OPENAI_API_KEY was absent."
+  ]
+}

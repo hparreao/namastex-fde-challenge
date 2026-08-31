@@ -1,0 +1,153 @@
+{
+  "context_namespaced": {
+    "hits": 12,
+    "unsafe_false_hit_rate": 0.5833,
+    "unsafe_hits": 7
+  },
+  "decision": "reject_semantic_cache",
+  "method": "lexical SequenceMatcher proxy; no embedding model was validated",
+  "naive": {
+    "hits": 15,
+    "unsafe_false_hit_rate": 0.6667,
+    "unsafe_hits": 10
+  },
+  "pairs": 15,
+  "results": [
+    {
+      "decisions_differ": true,
+      "dimension": "state",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": false,
+      "namespaced_unsafe": false,
+      "similarity": 1.0
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "plan",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": false,
+      "namespaced_unsafe": false,
+      "similarity": 1.0
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "collected_data",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": false,
+      "namespaced_unsafe": false,
+      "similarity": 1.0
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "negation",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": true,
+      "namespaced_unsafe": true,
+      "similarity": 0.8947
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "negation",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": true,
+      "namespaced_unsafe": true,
+      "similarity": 0.8947
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "human_handoff",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": true,
+      "namespaced_unsafe": true,
+      "similarity": 0.9259
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "vehicle_year",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": true,
+      "namespaced_unsafe": true,
+      "similarity": 0.9524
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "age",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": true,
+      "namespaced_unsafe": true,
+      "similarity": 0.9375
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "plan_change",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": true,
+      "namespaced_unsafe": true,
+      "similarity": 0.9167
+    },
+    {
+      "decisions_differ": true,
+      "dimension": "confirmation",
+      "naive_hit": true,
+      "naive_unsafe": true,
+      "namespaced_hit": true,
+      "namespaced_unsafe": true,
+      "similarity": 0.92
+    },
+    {
+      "decisions_differ": false,
+      "dimension": "safe_control_age",
+      "naive_hit": true,
+      "naive_unsafe": false,
+      "namespaced_hit": true,
+      "namespaced_unsafe": false,
+      "similarity": 0.8966
+    },
+    {
+      "decisions_differ": false,
+      "dimension": "safe_control_plan",
+      "naive_hit": true,
+      "naive_unsafe": false,
+      "namespaced_hit": true,
+      "namespaced_unsafe": false,
+      "similarity": 0.95
+    },
+    {
+      "decisions_differ": false,
+      "dimension": "safe_control_handoff",
+      "naive_hit": true,
+      "naive_unsafe": false,
+      "namespaced_hit": true,
+      "namespaced_unsafe": false,
+      "similarity": 0.9362
+    },
+    {
+      "decisions_differ": false,
+      "dimension": "safe_control_confirm",
+      "naive_hit": true,
+      "naive_unsafe": false,
+      "namespaced_hit": true,
+      "namespaced_unsafe": false,
+      "similarity": 0.9189
+    },
+    {
+      "decisions_differ": false,
+      "dimension": "safe_control_accept",
+      "naive_hit": true,
+      "naive_unsafe": false,
+      "namespaced_hit": true,
+      "namespaced_unsafe": false,
+      "similarity": 0.9189
+    }
+  ],
+  "threshold": 0.82
+}

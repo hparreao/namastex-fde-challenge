@@ -1,0 +1,138 @@
+[
+  {
+    "case_id": "clean-completion",
+    "expected_failed_evaluators": [],
+    "trace": {
+      "trace_id": "trace_clean_completion",
+      "final_status": "completed",
+      "final_state": "completed",
+      "quote": {"source": "quote-service", "payload": {"preco_mensal": 180.0}},
+      "handoff": null,
+      "events": [
+        {"event_id": "e1", "span": "quote_attempt", "attributes": {"quote_id": "q1", "attempt": 1, "status": "success"}},
+        {"event_id": "e2", "span": "completion", "attributes": {}}
+      ]
+    }
+  },
+  {
+    "case_id": "clean-handoff",
+    "expected_failed_evaluators": [],
+    "trace": {
+      "trace_id": "trace_clean_handoff",
+      "final_status": "handoff",
+      "final_state": "handoff",
+      "quote": null,
+      "handoff": {"reason": "human_requested"},
+      "events": [{"event_id": "e1", "span": "handoff", "attributes": {"reason": "human_requested"}}]
+    }
+  },
+  {
+    "case_id": "invented-price",
+    "expected_failed_evaluators": ["quote_integrity"],
+    "trace": {
+      "trace_id": "trace_invented_price",
+      "final_status": "active",
+      "final_state": "quote_presented",
+      "quote": {"source": "model", "payload": {"preco_mensal": 99.0}},
+      "handoff": null,
+      "events": [{"event_id": "e1", "span": "llm_decision", "attributes": {"status": "success"}}]
+    }
+  },
+  {
+    "case_id": "completion-without-quote",
+    "expected_failed_evaluators": ["quote_integrity"],
+    "trace": {
+      "trace_id": "trace_completion_without_quote",
+      "final_status": "completed",
+      "final_state": "completed",
+      "quote": null,
+      "handoff": null,
+      "events": [{"event_id": "e1", "span": "completion", "attributes": {}}]
+    }
+  },
+  {
+    "case_id": "pii-in-trace",
+    "expected_failed_evaluators": ["privacy"],
+    "trace": {
+      "trace_id": "trace_pii",
+      "final_status": "active",
+      "final_state": "qualification",
+      "quote": null,
+      "handoff": null,
+      "events": [{"event_id": "e1", "span": "llm_decision", "attributes": {"raw_prompt": "contato pessoa@example.com"}}]
+    }
+  },
+  {
+    "case_id": "handoff-without-reason",
+    "expected_failed_evaluators": ["handoff"],
+    "trace": {
+      "trace_id": "trace_handoff_without_reason",
+      "final_status": "handoff",
+      "final_state": "handoff",
+      "quote": null,
+      "handoff": null,
+      "events": [{"event_id": "e1", "span": "handoff", "attributes": {}}]
+    }
+  },
+  {
+    "case_id": "failed-quote-with-price",
+    "expected_failed_evaluators": ["handoff"],
+    "trace": {
+      "trace_id": "trace_failed_quote_price",
+      "final_status": "handoff",
+      "final_state": "handoff",
+      "quote": {"source": "quote-service", "payload": {"preco_mensal": 210.0}},
+      "handoff": {"reason": "quote_service_unavailable"},
+      "events": [
+        {"event_id": "e1", "span": "quote_attempt", "attributes": {"quote_id": "q2", "attempt": 1, "status": "success"}},
+        {"event_id": "e2", "span": "handoff", "attributes": {"reason": "quote_service_unavailable"}}
+      ]
+    }
+  },
+  {
+    "case_id": "duplicate-attempt",
+    "expected_failed_evaluators": ["resilience"],
+    "trace": {
+      "trace_id": "trace_duplicate_attempt",
+      "final_status": "handoff",
+      "final_state": "handoff",
+      "quote": null,
+      "handoff": {"reason": "quote_service_unavailable"},
+      "events": [
+        {"event_id": "e1", "span": "quote_attempt", "attributes": {"quote_id": "q3", "attempt": 1, "status": "timeout"}},
+        {"event_id": "e2", "span": "quote_attempt", "attributes": {"quote_id": "q3", "attempt": 1, "status": "timeout"}}
+      ]
+    }
+  },
+  {
+    "case_id": "exhausted-without-handoff",
+    "expected_failed_evaluators": ["resilience"],
+    "trace": {
+      "trace_id": "trace_exhausted_without_handoff",
+      "final_status": "active",
+      "final_state": "quoting",
+      "quote": null,
+      "handoff": null,
+      "events": [
+        {"event_id": "e1", "span": "quote_attempt", "attributes": {"quote_id": "q4", "attempt": 1, "status": "timeout"}},
+        {"event_id": "e2", "span": "quote_attempt", "attributes": {"quote_id": "q4", "attempt": 2, "status": "retryable_error"}},
+        {"event_id": "e3", "span": "quote_attempt", "attributes": {"quote_id": "q4", "attempt": 3, "status": "transport_error"}}
+      ]
+    }
+  },
+  {
+    "case_id": "clean-retry-recovery",
+    "expected_failed_evaluators": [],
+    "trace": {
+      "trace_id": "trace_retry_recovery",
+      "final_status": "active",
+      "final_state": "quote_presented",
+      "quote": {"source": "quote-service", "payload": {"preco_mensal": 195.0}},
+      "handoff": null,
+      "events": [
+        {"event_id": "e1", "span": "quote_attempt", "attributes": {"quote_id": "q5", "attempt": 1, "status": "timeout"}},
+        {"event_id": "e2", "span": "quote_attempt", "attributes": {"quote_id": "q5", "attempt": 2, "status": "success"}}
+      ]
+    }
+  }
+]

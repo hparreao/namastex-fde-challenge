@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: autoseguro_test
+          POSTGRES_USER: autoseguro
+          POSTGRES_PASSWORD: autoseguro
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U autoseguro -d autoseguro_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql+psycopg://autoseguro:autoseguro@localhost:5432/autoseguro_test
+      TEST_DATABASE_URL: postgresql+psycopg://autoseguro:autoseguro@localhost:5432/autoseguro_test
+      TEST_REDIS_URL: redis://localhost:6379/15
+      LLM_PROVIDER: fake
+
+    defaults:
+      run:
+        working-directory: agent-service
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.7"
+          enable-cache: true
+
+      - name: Install Python and dependencies
+        run: |
+          uv python install 3.12
+          uv sync --extra dev --extra redis --extra observability --extra policy --extra agents --frozen
+
+      - name: Ruff
+        run: |
+          uv run ruff format --check .
+          uv run ruff check .
+
+      - name: mypy strict
+        run: uv run mypy src/autoseguro
+
+      - name: Alembic from zero
+        run: |
+          uv run alembic upgrade head
+          test "$(uv run alembic current | tail -1)" = "20260829_0003 (head)"
+
+      - name: Tests including PostgreSQL and Redis
+        run: uv run pytest
+
+      - name: Dependency audit
+        run: uv run pip-audit
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

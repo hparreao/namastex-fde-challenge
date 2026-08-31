@@ -1,0 +1,106 @@
+{
+  "provider": "openai-agents-sdk",
+  "model": "gpt-5.4-mini-2026-03-17",
+  "session_id": "ab0a59bc-e1e1-4ca0-866e-f1b4aa6311d2",
+  "turns": [
+    {
+      "turn": 1,
+      "http_status": 200,
+      "correlation_id": "agents-sdk-correlation-01",
+      "message_id": "8437cd1a-28d5-43a5-8c62-6c53862c4015",
+      "state": "confirmation",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": null,
+      "assistant_message": "Confirma a cotação do plano completo para Toyota Corolla 2022, condutor de 35 anos e região de CEP 01***-***?"
+    },
+    {
+      "turn": 2,
+      "http_status": 200,
+      "correlation_id": "agents-sdk-correlation-02",
+      "message_id": "74ca8a70-492e-42b6-b69e-eb9b76e47cbd",
+      "state": "confirmation",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": null,
+      "assistant_message": "Confirma a cotação do plano completo para Toyota Corolla 2022, condutor de 35 anos e região de CEP 01***-***?"
+    },
+    {
+      "turn": 3,
+      "http_status": 200,
+      "correlation_id": "agents-sdk-correlation-03",
+      "message_id": "0918329d-716a-438d-970e-2cf2232536c2",
+      "state": "handoff",
+      "status": "handoff",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": null,
+      "assistant_message": "Não consegui confirmar os dados necessários com segurança. Vou pedir ajuda a um atendente."
+    }
+  ],
+  "final_state": "handoff",
+  "final_status": "handoff",
+  "provenance": {
+    "quote_id_scope": "local_operation",
+    "successful_quote_attempts": 0,
+    "quote_id": null,
+    "http_200": false,
+    "presented_price_matches_upstream": false
+  },
+  "provider_calls": [
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 1646,
+      "usage": {
+        "input_tokens": 432,
+        "output_tokens": 55,
+        "total_tokens": 487
+      }
+    },
+    {
+      "attempt": 1,
+      "status": "error",
+      "error_category": "APIConnectionError",
+      "http_status": null,
+      "duration_ms": 8
+    },
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 1725,
+      "usage": {
+        "input_tokens": 420,
+        "output_tokens": 51,
+        "total_tokens": 471
+      }
+    }
+  ],
+  "invariants": {
+    "completed": false,
+    "one_successful_quote": false,
+    "no_plaintext_capability_token": true,
+    "no_pii_in_artifact": true,
+    "trace_has_canonical_ids": true
+  }
+}

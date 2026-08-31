@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-08-31T04:04:21Z",
+  "credential_source": "environment_only",
+  "openai_api_key_available_during_campaign": true,
+  "credential_persisted": false,
+  "quote_service_executed": true,
+  "status": "validated_with_limitations",
+  "campaign_run_id": "20260831T033826Z",
+  "agents_sdk_package_tested": "0.22.0",
+  "openai_provider_real_e2e_completed": true,
+  "agents_sdk_real_api_execution": true,
+  "agents_sdk_real_e2e_completed": false,
+  "claim": "OpenAIProvider completed the live E2E. AgentsSDKProvider executed live but reached safe handoff after one APIConnectionError; it is not recommended as the default."
+}

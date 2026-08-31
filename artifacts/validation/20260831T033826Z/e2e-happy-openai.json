@@ -1,0 +1,161 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.4-mini-2026-03-17",
+  "session_id": "a303e958-0d85-4cbb-b680-8f2415ce071b",
+  "turns": [
+    {
+      "turn": 1,
+      "http_status": 200,
+      "correlation_id": "openai-correlation-01",
+      "message_id": "335f1a02-c7d3-49d5-87ba-9a8793528302",
+      "state": "confirmation",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": null,
+      "assistant_message": "Confirma a cotação do plano completo para Toyota Corolla 2022, condutor de 35 anos e região de CEP 01***-***?"
+    },
+    {
+      "turn": 2,
+      "http_status": 200,
+      "correlation_id": "openai-correlation-02",
+      "message_id": "6f7828a9-be0e-4e30-8eec-e4fe37f1b2a5",
+      "state": "quote_presented",
+      "status": "active",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": {
+        "plano_id": "completo",
+        "plano_nome": "Completo",
+        "premio_mensal": 209.9,
+        "franquia": 3000.0,
+        "coberturas": [
+          "colisao",
+          "roubo",
+          "furto",
+          "terceiros",
+          "vidros"
+        ],
+        "multiplicadores": {
+          "faixa_etaria": 1.0,
+          "idade_veiculo": 1.0,
+          "regiao": 1.0
+        },
+        "carencia": {
+          "coberturas": [
+            "roubo",
+            "furto"
+          ],
+          "dias": 30,
+          "observacao": "Coberturas de roubo e furto so passam a valer apos a carencia, contada da data de inicio da vigencia."
+        },
+        "moeda": "BRL"
+      },
+      "assistant_message": "Cotação oficial: plano Completo, mensalidade de R$ 209,90, franquia de R$ 3.000,00. Coberturas: colisao, roubo, furto, terceiros, vidros. Roubo e furto têm carência de 30 dias. Deseja registrar interesse nesta proposta?"
+    },
+    {
+      "turn": 3,
+      "http_status": 200,
+      "correlation_id": "openai-correlation-03",
+      "message_id": "ba9916e6-35b6-4563-98ca-c29629ec386d",
+      "state": "completed",
+      "status": "completed",
+      "collected": {
+        "age": 35,
+        "vehicle_model": "Toyota Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": "01",
+        "plan_id": "completo",
+        "start_date": null
+      },
+      "quote": {
+        "plano_id": "completo",
+        "plano_nome": "Completo",
+        "premio_mensal": 209.9,
+        "franquia": 3000.0,
+        "coberturas": [
+          "colisao",
+          "roubo",
+          "furto",
+          "terceiros",
+          "vidros"
+        ],
+        "multiplicadores": {
+          "faixa_etaria": 1.0,
+          "idade_veiculo": 1.0,
+          "regiao": 1.0
+        },
+        "carencia": {
+          "coberturas": [
+            "roubo",
+            "furto"
+          ],
+          "dias": 30,
+          "observacao": "Coberturas de roubo e furto so passam a valer apos a carencia, contada da data de inicio da vigencia."
+        },
+        "moeda": "BRL"
+      },
+      "assistant_message": "Registrei seu interesse. A contratação e a emissão da apólice dependem da validação de um atendente."
+    }
+  ],
+  "final_state": "completed",
+  "final_status": "completed",
+  "provenance": {
+    "quote_id_scope": "local_operation",
+    "successful_quote_attempts": 1,
+    "quote_id": "7a537990-9abb-4b10-86a2-252604cc8df2",
+    "http_200": true,
+    "presented_price_matches_upstream": true
+  },
+  "provider_calls": [
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 2158,
+      "usage": {
+        "input_tokens": 432,
+        "output_tokens": 55,
+        "total_tokens": 487
+      }
+    },
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 1322,
+      "usage": {
+        "input_tokens": 420,
+        "output_tokens": 51,
+        "total_tokens": 471
+      }
+    },
+    {
+      "attempt": 1,
+      "status": "ok",
+      "duration_ms": 1089,
+      "usage": {
+        "input_tokens": 422,
+        "output_tokens": 51,
+        "total_tokens": 473
+      }
+    }
+  ],
+  "invariants": {
+    "completed": true,
+    "one_successful_quote": true,
+    "no_plaintext_capability_token": true,
+    "no_pii_in_artifact": true,
+    "trace_has_canonical_ids": true
+  }
+}

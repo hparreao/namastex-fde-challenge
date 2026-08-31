@@ -1,0 +1,314 @@
+{
+  "seed": 4242,
+  "operations": 12,
+  "configuration": {
+    "failure_rate": 0.35,
+    "slow_rate": 0.25,
+    "slow_seconds": 0.25,
+    "client_timeout_seconds": 0.1,
+    "max_attempts": 3,
+    "wall_limit_seconds": 15
+  },
+  "distribution": {
+    "success_first": 4,
+    "success_after_retry": 5,
+    "circuit_breaker": 0,
+    "handoff": 3
+  },
+  "attempt_statuses": {
+    "success": 9,
+    "retryable_error": 9,
+    "timeout": 7,
+    "transport_error": 0,
+    "circuit_open": 0
+  },
+  "p50_ms": 100.0,
+  "p95_ms_descriptive": 162,
+  "p95_interpretation": "descriptive_only",
+  "wall_seconds": 1.166,
+  "runs": [
+    {
+      "operation": 1,
+      "quote_id": "0fa6839f-f492-4d68-9a54-fd232e3fbe9e",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_first",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "success",
+          "duration_ms": 14,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 74
+    },
+    {
+      "operation": 2,
+      "quote_id": "c25c12fb-07e4-4ed1-8f33-5a49691e0ac6",
+      "quote_id_scope": "local_operation",
+      "outcome": "handoff",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "timeout",
+          "duration_ms": 102,
+          "http_status": null,
+          "error_code": "timeout"
+        },
+        {
+          "attempt_no": 2,
+          "status": "retryable_error",
+          "duration_ms": 2,
+          "http_status": 502,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 3,
+          "status": "timeout",
+          "duration_ms": 102,
+          "http_status": null,
+          "error_code": "timeout"
+        }
+      ],
+      "duration_ms": 249
+    },
+    {
+      "operation": 3,
+      "quote_id": "548d165f-000f-43df-997b-428e1bb541b4",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_after_retry",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "retryable_error",
+          "duration_ms": 2,
+          "http_status": 503,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 2,
+          "status": "timeout",
+          "duration_ms": 101,
+          "http_status": null,
+          "error_code": "timeout"
+        },
+        {
+          "attempt_no": 3,
+          "status": "success",
+          "duration_ms": 3,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 148
+    },
+    {
+      "operation": 4,
+      "quote_id": "6f9c1fb5-c82e-4d01-915a-cdb61aab4b27",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_after_retry",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "retryable_error",
+          "duration_ms": 2,
+          "http_status": 503,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 2,
+          "status": "success",
+          "duration_ms": 3,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 30
+    },
+    {
+      "operation": 5,
+      "quote_id": "c46c4db3-5dc4-4a1c-afa8-11fc218526f0",
+      "quote_id_scope": "local_operation",
+      "outcome": "handoff",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "timeout",
+          "duration_ms": 102,
+          "http_status": null,
+          "error_code": "timeout"
+        },
+        {
+          "attempt_no": 2,
+          "status": "retryable_error",
+          "duration_ms": 3,
+          "http_status": 503,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 3,
+          "status": "retryable_error",
+          "duration_ms": 3,
+          "http_status": 502,
+          "error_code": "upstream_unavailable"
+        }
+      ],
+      "duration_ms": 154
+    },
+    {
+      "operation": 6,
+      "quote_id": "d5f94bd0-dbe6-45ce-a0bd-e9050bb4355c",
+      "quote_id_scope": "local_operation",
+      "outcome": "handoff",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "retryable_error",
+          "duration_ms": 11,
+          "http_status": 503,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 2,
+          "status": "retryable_error",
+          "duration_ms": 2,
+          "http_status": 503,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 3,
+          "status": "timeout",
+          "duration_ms": 102,
+          "http_status": null,
+          "error_code": "timeout"
+        }
+      ],
+      "duration_ms": 162
+    },
+    {
+      "operation": 7,
+      "quote_id": "a48676ae-7288-4e46-9f65-7cd430ea62bd",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_first",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "success",
+          "duration_ms": 2,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 18
+    },
+    {
+      "operation": 8,
+      "quote_id": "10fa9aed-6274-45d5-9ab4-37e06628ec1a",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_first",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "success",
+          "duration_ms": 2,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 13
+    },
+    {
+      "operation": 9,
+      "quote_id": "73204cc5-da90-4b7c-9660-56179e054645",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_after_retry",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "retryable_error",
+          "duration_ms": 2,
+          "http_status": 502,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 2,
+          "status": "retryable_error",
+          "duration_ms": 1,
+          "http_status": 502,
+          "error_code": "upstream_unavailable"
+        },
+        {
+          "attempt_no": 3,
+          "status": "success",
+          "duration_ms": 2,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 52
+    },
+    {
+      "operation": 10,
+      "quote_id": "2823bcc8-013a-4478-a37c-964daed6f45f",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_after_retry",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "timeout",
+          "duration_ms": 102,
+          "http_status": null,
+          "error_code": "timeout"
+        },
+        {
+          "attempt_no": 2,
+          "status": "success",
+          "duration_ms": 2,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 126
+    },
+    {
+      "operation": 11,
+      "quote_id": "58772db3-e1f8-4121-ade7-7987dd586344",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_first",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "success",
+          "duration_ms": 2,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 13
+    },
+    {
+      "operation": 12,
+      "quote_id": "a4b3eeea-4ba3-4a01-8d43-b9526fc41b77",
+      "quote_id_scope": "local_operation",
+      "outcome": "success_after_retry",
+      "attempts": [
+        {
+          "attempt_no": 1,
+          "status": "timeout",
+          "duration_ms": 102,
+          "http_status": null,
+          "error_code": "timeout"
+        },
+        {
+          "attempt_no": 2,
+          "status": "success",
+          "duration_ms": 2,
+          "http_status": 200,
+          "error_code": null
+        }
+      ],
+      "duration_ms": 126
+    }
+  ]
+}

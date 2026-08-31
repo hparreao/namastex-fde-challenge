@@ -1,0 +1,167 @@
+[
+  {
+    "dimension": "state",
+    "message_a": "sim, pode seguir",
+    "message_b": "sim, pode seguir",
+    "state_a": "confirmation",
+    "state_b": "quote_presented",
+    "collected_a": {"age": 35, "vehicle_year": 2022, "cep_prefix": "01", "plan_id": "completo"},
+    "collected_b": {"age": 35, "vehicle_year": 2022, "cep_prefix": "01", "plan_id": "completo"},
+    "expected_decision_a": "confirm_data",
+    "expected_decision_b": "accept_quote"
+  },
+  {
+    "dimension": "plan",
+    "message_a": "quero manter esse plano",
+    "message_b": "quero manter esse plano",
+    "state_a": "confirmation",
+    "state_b": "confirmation",
+    "collected_a": {"plan_id": "essencial"},
+    "collected_b": {"plan_id": "premium"},
+    "expected_decision_a": "confirm_essencial",
+    "expected_decision_b": "confirm_premium"
+  },
+  {
+    "dimension": "collected_data",
+    "message_a": "pode usar os dados anteriores",
+    "message_b": "pode usar os dados anteriores",
+    "state_a": "confirmation",
+    "state_b": "confirmation",
+    "collected_a": {"age": 24, "vehicle_year": 2020, "cep_prefix": "01"},
+    "collected_b": {"age": 62, "vehicle_year": 2012, "cep_prefix": "20"},
+    "expected_decision_a": "confirm_profile_a",
+    "expected_decision_b": "confirm_profile_b"
+  },
+  {
+    "dimension": "negation",
+    "message_a": "confirmo os dados",
+    "message_b": "não confirmo os dados",
+    "state_a": "confirmation",
+    "state_b": "confirmation",
+    "collected_a": {"plan_id": "completo"},
+    "collected_b": {"plan_id": "completo"},
+    "expected_decision_a": "confirm",
+    "expected_decision_b": "reject_confirmation"
+  },
+  {
+    "dimension": "negation",
+    "message_a": "aceito a proposta",
+    "message_b": "não aceito a proposta",
+    "state_a": "quote_presented",
+    "state_b": "quote_presented",
+    "collected_a": {"plan_id": "completo"},
+    "collected_b": {"plan_id": "completo"},
+    "expected_decision_a": "accept",
+    "expected_decision_b": "decline"
+  },
+  {
+    "dimension": "human_handoff",
+    "message_a": "quero falar com um humano",
+    "message_b": "não quero falar com um humano",
+    "state_a": "qualification",
+    "state_b": "qualification",
+    "collected_a": {},
+    "collected_b": {},
+    "expected_decision_a": "human",
+    "expected_decision_b": "continue_automation"
+  },
+  {
+    "dimension": "vehicle_year",
+    "message_a": "o carro é modelo 2022",
+    "message_b": "o carro é modelo 2012",
+    "state_a": "qualification",
+    "state_b": "qualification",
+    "collected_a": {},
+    "collected_b": {},
+    "expected_decision_a": "extract_year_2022",
+    "expected_decision_b": "extract_year_2012"
+  },
+  {
+    "dimension": "age",
+    "message_a": "eu tenho 35 anos",
+    "message_b": "eu tenho 65 anos",
+    "state_a": "qualification",
+    "state_b": "qualification",
+    "collected_a": {},
+    "collected_b": {},
+    "expected_decision_a": "extract_age_35",
+    "expected_decision_b": "extract_age_65"
+  },
+  {
+    "dimension": "plan_change",
+    "message_a": "quero o plano completo",
+    "message_b": "não quero o plano completo",
+    "state_a": "plan_selection",
+    "state_b": "plan_selection",
+    "collected_a": {},
+    "collected_b": {},
+    "expected_decision_a": "select_complete",
+    "expected_decision_b": "reject_complete"
+  },
+  {
+    "dimension": "confirmation",
+    "message_a": "os dados estão corretos",
+    "message_b": "os dados não estão corretos",
+    "state_a": "confirmation",
+    "state_b": "confirmation",
+    "collected_a": {"plan_id": "premium"},
+    "collected_b": {"plan_id": "premium"},
+    "expected_decision_a": "confirm",
+    "expected_decision_b": "correct_data"
+  },
+  {
+    "dimension": "safe_control_age",
+    "message_a": "tenho 35 anos",
+    "message_b": "eu tenho 35 anos",
+    "state_a": "qualification",
+    "state_b": "qualification",
+    "collected_a": {},
+    "collected_b": {},
+    "expected_decision_a": "extract_age_35",
+    "expected_decision_b": "extract_age_35"
+  },
+  {
+    "dimension": "safe_control_plan",
+    "message_a": "quero plano premium",
+    "message_b": "quero o plano premium",
+    "state_a": "plan_selection",
+    "state_b": "plan_selection",
+    "collected_a": {},
+    "collected_b": {},
+    "expected_decision_a": "select_premium",
+    "expected_decision_b": "select_premium"
+  },
+  {
+    "dimension": "safe_control_handoff",
+    "message_a": "quero falar com humano",
+    "message_b": "quero falar com um humano",
+    "state_a": "qualification",
+    "state_b": "qualification",
+    "collected_a": {},
+    "collected_b": {},
+    "expected_decision_a": "human",
+    "expected_decision_b": "human"
+  },
+  {
+    "dimension": "safe_control_confirm",
+    "message_a": "confirmo os dados",
+    "message_b": "eu confirmo os dados",
+    "state_a": "confirmation",
+    "state_b": "confirmation",
+    "collected_a": {"plan_id": "completo"},
+    "collected_b": {"plan_id": "completo"},
+    "expected_decision_a": "confirm",
+    "expected_decision_b": "confirm"
+  },
+  {
+    "dimension": "safe_control_accept",
+    "message_a": "aceito a proposta",
+    "message_b": "eu aceito a proposta",
+    "state_a": "quote_presented",
+    "state_b": "quote_presented",
+    "collected_a": {"plan_id": "premium"},
+    "collected_b": {"plan_id": "premium"},
+    "expected_decision_a": "accept",
+    "expected_decision_b": "accept"
+  }
+]

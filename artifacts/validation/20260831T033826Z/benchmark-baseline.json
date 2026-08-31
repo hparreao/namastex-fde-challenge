@@ -1,0 +1,33 @@
+{
+  "baseline": {
+    "iterations": 100,
+    "llm_calls": 100,
+    "p50_ms": 4.963,
+    "p95_ms": 7.252,
+    "profile": "baseline",
+    "semantic_cache_hit_rate": 0.0,
+    "semantic_cache_hits": 0,
+    "telemetry_spans": 0,
+    "tokens": null,
+    "tokens_available": false
+  },
+  "decision_equivalence": {
+    "equal": 100,
+    "rate": 1.0,
+    "total": 100
+  },
+  "enabled": {
+    "iterations": 100,
+    "llm_calls": 100,
+    "p50_ms": 5.076,
+    "p95_ms": 6.093,
+    "profile": "otel_in_memory_plus_cedar_shadow",
+    "semantic_cache_hit_rate": 0.0,
+    "semantic_cache_hits": 0,
+    "telemetry_spans": 600,
+    "tokens": null,
+    "tokens_available": false
+  },
+  "scope": "Local deterministic comparison. Redis, OTLP export, Langfuse and real LLM are excluded and are not claimed as benchmarked.",
+  "unsafe_false_hit_rate": 0.5833
+}

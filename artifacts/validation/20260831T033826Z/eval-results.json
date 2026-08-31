@@ -1,0 +1,255 @@
+{
+  "redaction_metrics": {
+    "fixture_class": "synthetic_source_fixture",
+    "categories_detected_before_redaction": [
+      "CPF",
+      "EMAIL"
+    ],
+    "redaction_applied": true,
+    "raw_pii_sent_to_provider": false,
+    "runtime_storage_leaks": 0
+  },
+  "model_metrics": {
+    "cases": 9,
+    "schema_valid_rate": 1.0,
+    "intent_accuracy_labeled": 1.0,
+    "price_without_provenance_rate": 0.0,
+    "latency_p50_ms": 1137.0,
+    "latency_p95_ms": 1617.0,
+    "p95_interpretation": "descriptive_only"
+  },
+  "system_invariants": {
+    "openai_happy": {
+      "completed": true,
+      "one_successful_quote": true,
+      "no_plaintext_capability_token": true,
+      "no_pii_in_artifact": true,
+      "trace_has_canonical_ids": true
+    },
+    "agents_sdk_happy": {
+      "completed": false,
+      "one_successful_quote": false,
+      "no_plaintext_capability_token": true,
+      "no_pii_in_artifact": true,
+      "trace_has_canonical_ids": true
+    }
+  },
+  "cases": [
+    {
+      "case_id": "injection",
+      "provider": "openai",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "unknown",
+      "expected_intent": null,
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": null,
+        "vehicle_year": null,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 1504,
+      "usage": {
+        "input_tokens": 429,
+        "output_tokens": 51,
+        "total_tokens": 480
+      }
+    },
+    {
+      "case_id": "negotiation",
+      "provider": "openai",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "negotiate",
+      "expected_intent": "negotiate",
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": null,
+        "vehicle_year": null,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 1059,
+      "usage": {
+        "input_tokens": 419,
+        "output_tokens": 53,
+        "total_tokens": 472
+      }
+    },
+    {
+      "case_id": "human",
+      "provider": "openai",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "human",
+      "expected_intent": "human",
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": null,
+        "vehicle_year": null,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 1682,
+      "usage": {
+        "input_tokens": 420,
+        "output_tokens": 51,
+        "total_tokens": 471
+      }
+    },
+    {
+      "case_id": "pii_redacted",
+      "provider": "openai",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "provide_data",
+      "expected_intent": "provide_data",
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": "Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 841,
+      "usage": {
+        "input_tokens": 434,
+        "output_tokens": 54,
+        "total_tokens": 488
+      }
+    },
+    {
+      "case_id": "injection",
+      "provider": "openai-agents-sdk",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "unknown",
+      "expected_intent": null,
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": null,
+        "vehicle_year": null,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 1617,
+      "usage": {
+        "input_tokens": 429,
+        "output_tokens": 51,
+        "total_tokens": 480
+      }
+    },
+    {
+      "case_id": "negotiation",
+      "provider": "openai-agents-sdk",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "negotiate",
+      "expected_intent": "negotiate",
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": null,
+        "vehicle_year": null,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 960,
+      "usage": {
+        "input_tokens": 419,
+        "output_tokens": 53,
+        "total_tokens": 472
+      }
+    },
+    {
+      "case_id": "human",
+      "provider": "openai-agents-sdk",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "human",
+      "expected_intent": "human",
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": null,
+        "vehicle_year": null,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 1601,
+      "usage": {
+        "input_tokens": 420,
+        "output_tokens": 51,
+        "total_tokens": 471
+      }
+    },
+    {
+      "case_id": "pii_redacted",
+      "provider": "openai-agents-sdk",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "provide_data",
+      "expected_intent": "provide_data",
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": "Corolla",
+        "vehicle_year": 2022,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 864,
+      "usage": {
+        "input_tokens": 434,
+        "output_tokens": 54,
+        "total_tokens": 488
+      }
+    },
+    {
+      "case_id": "ambiguity",
+      "provider": "openai-agents-sdk",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "schema_valid": true,
+      "intent": "unknown",
+      "expected_intent": null,
+      "intent_match": true,
+      "extracted": {
+        "age": null,
+        "vehicle_model": null,
+        "vehicle_year": null,
+        "cep_prefix": null,
+        "plan_id": null,
+        "start_date": null
+      },
+      "price_field_possible": false,
+      "latency_ms": 1137,
+      "usage": {
+        "input_tokens": 418,
+        "output_tokens": 51,
+        "total_tokens": 469
+      }
+    }
+  ]
+}
