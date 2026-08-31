@@ -87,6 +87,10 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Gitleaks history and working tree
+        run: >-
+          docker run --rm
+          -v "${{ github.workspace }}:/repo:ro"
+          zricethezav/gitleaks:v8.24.2
+          git --config=/repo/.gitleaks.toml /repo
+          --no-banner --redact --exit-code 1
