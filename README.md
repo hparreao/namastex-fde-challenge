@@ -148,8 +148,8 @@ curl -s -X POST http://localhost:8080/v1/sessions
 A resposta entrega `session_token` uma única vez. Somente o hash SHA-256 é persistido. Mensagens exigem o token e uma idempotency key por operação lógica:
 
 ```bash
-curl -s -X POST http://localhost:8080/v1/sessions/SESSION_ID/messages \
-  -H 'x-session-token: SESSION_TOKEN' \
+curl -s -X POST "http://localhost:8080/v1/sessions/${SESSION_ID}/messages" \
+  -H "x-session-token: ${SESSION_TOKEN}" \
   -H 'idempotency-key: message-0001' \
   -H 'content-type: application/json' \
   -d '{"content":"Toyota Corolla 2022","message_type":"text"}'
@@ -158,10 +158,10 @@ curl -s -X POST http://localhost:8080/v1/sessions/SESSION_ID/messages \
 Repetir chave e payload retorna a mesma resposta. Reutilizar a chave com payload diferente retorna HTTP 409. O lock curto por sessão impede processamento e cotação concorrentes.
 
 ```bash
-curl -s -H 'x-session-token: SESSION_TOKEN' \
-  http://localhost:8080/v1/sessions/SESSION_ID
-curl -s -H 'x-session-token: SESSION_TOKEN' \
-  http://localhost:8080/v1/sessions/SESSION_ID/trace
+curl -s -H "x-session-token: ${SESSION_TOKEN}" \
+  "http://localhost:8080/v1/sessions/${SESSION_ID}"
+curl -s -H "x-session-token: ${SESSION_TOKEN}" \
+  "http://localhost:8080/v1/sessions/${SESSION_ID}/trace"
 curl -s http://localhost:8080/health
 ```
 
